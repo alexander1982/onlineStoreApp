@@ -1,0 +1,12 @@
+{
+  "test": {
+    "port": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/StoreAppTest",
+    "JWT_SECRET": "AADDkkll89bffGGGGJJ7887877800kkM"
+  },
+  "development": {
+    "port": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/StoreApp",
+    "JWT_SECRET": "GGGGjjjlyvtfiuhjo87t67879LKJHBkmm"
+  }
+}
