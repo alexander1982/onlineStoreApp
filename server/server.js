@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const _ = require('lodash');
 
 const User = require('./models/userModel.js').User;
+const Product = require('./models/productModel.js').Product;
+const authenticate = require('./middlewears/authenticate.js').authenticate;
 
 const objectId = require('express').ObjectID;
 const app = express();
@@ -22,7 +24,7 @@ app.post('/users', (req, res) => {
 	}).then((token) => {
 		res.header('x-auth', token).send(user);
 	}).catch((err) => {
-		res.status(400).send(err);
+		res.status(400).send(err.errmsg);
 	});
 });
 //LIST OF ALL USERS
@@ -34,13 +36,27 @@ app.get('/users', (req, res) => {
 	});
 	
 });
-//GET USER BY ID
-app.get('/users/:id', (req,res) => {
-	User.findOne({id: req.params.id}).then((user) => {
-		res.send(user);
-	},(err) => {
-		res.status(400).send(err);
-	})
+//GET USER BY TOKEN
+app.get('/users/cart', authenticate, (req,res) => {
+	if(!req.user){
+		res.status(404).send('User not found');
+	}
+	res.status(200).send(req.user);
+});
+//===================================================
+//ADD ITEM TO STORE
+app.post('/products', (req,res) => {
+	var body = _.pick(req.body, ['name', 'describtion', 'quantity']);
+	var product = new Product(body);
+	
+	product.save().then((product) => {
+		if(!product){
+			res.status(400).send();
+		}
+		res.status(200).send(product);
+	}).catch((err) => {
+		res.status(400).send(err.errmsg);
+	});
 });
 
 app.listen(port, () => {

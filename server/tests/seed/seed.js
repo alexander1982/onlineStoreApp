@@ -1,4 +1,5 @@
 const User = require('../../models/userModel.js').User;
+const Product = require('../../models/productModel.js').Product;
 const objectId = require('mongodb').ObjectID;
 const userOneId = new objectId();
 const userTwoId = new objectId();
@@ -7,6 +8,7 @@ require('../../config/config.js');
 
 const users = [
 	{
+		_id: userOneId,
 		name: 'Alan',
 		username: 'JohnDoe',
 		email: "john@gmail.com",
@@ -17,9 +19,10 @@ const users = [
 		}]
 	},
 	{
+		_id: userTwoId,
 		name: 'Aladin',
 		username: 'JohnnyDoesy',
-		email: "john@gmail.com",
+		email: "johsn@gmail.com",
 		password: '12345678',
 		tokens: [{
 			access: "auth",
@@ -28,7 +31,7 @@ const users = [
 	}
 ];
 
-const populateUsersDB = (done) => {
+const populateUsers = (done) => {
 	User.remove({}).then(() => {
 		var userOne = new User(users[0]).save();
 		var userTwo = new User(users[1]).save();
@@ -39,7 +42,32 @@ const populateUsersDB = (done) => {
 	})
 };
 
+const products = [
+	{
+		_id: new objectId(),
+		name: 'Snickers',
+		describtion: 'Tasty bar',
+		quantity: 3
+	},
+	{
+		_id: new objectId(),
+		name: 'Mars',
+		describtion: 'Very tasty bar',
+		quantity: 4
+	}
+];
+
+const populateProducts = (done) => {
+	Product.remove({}).then(() => {
+		return Product.insertMany(products);
+	}).then(() => {
+		done();
+	});
+};
+
 module.exports = {
 	users,
-	populateUsersDB
+	products,
+	populateUsers,
+	populateProducts
 };
