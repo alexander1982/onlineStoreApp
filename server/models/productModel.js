@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const _ = require('lodash');
 require('../config/config.js');
 
 const productSchema = new mongoose.Schema({
