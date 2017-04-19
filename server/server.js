@@ -120,6 +120,22 @@ app.patch('/products', (req, res) => {
 		res.status(400).send(err);
 	})
 });
+//DELETE PRODUCT
+app.delete('/products/:id', (req, res) => {
+	
+	//if(!objectId.isValid(productId)){
+	//	return res.status(404).send('The id is invalid');
+	//}
+	
+	Product.findByIdAndRemove(req.params.id).then((product) => {
+		if(!product){
+			return res.status(404).send();
+		}
+		res.status(200).send(product);
+	}).catch((err) => {
+		res.status(400).send(err);
+	})
+});
 app.listen(port, () => {
 	console.log(`Server is running on port`, port)
 });
