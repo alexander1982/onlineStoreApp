@@ -84,7 +84,7 @@ app.get('/products', (req, res) => {
 		res.status(400).send(err.errmsg);
 	});
 });
-//UPDATE PRODUCT
+//UPDATE THE WHOLE PRODUCT
 app.patch('/products/:id', (req, res) => {
 	var productId = req.params.id;
 	var formattedProduct = _.pick(req.body, ['name', 'describtion', 'quantity']);
@@ -102,7 +102,24 @@ app.patch('/products/:id', (req, res) => {
 		res.status(400).send(err.errmsg);
 	})
 });	
+//UPDATE QUANTITY OF THE PRODUCT
+app.patch('/products', (req, res) => {
+	var productId = req.body._id;
+	var newQuantity = req.body.quantity;
+	
+	if(newQuantity < 0){
+		throw new Error('The quantity must be a positive number');
+	}
 
+	Product.findOneAndUpdate({_id: productId},{$set:{quantity: newQuantity}}, {new: true}).then((product) => {
+		if(!product) {
+			return res.status(404).send();
+		}
+		res.status(200).send(product)
+	}).catch((err) => {
+		res.status(400).send(err);
+	})
+});
 app.listen(port, () => {
 	console.log(`Server is running on port`, port)
 });
