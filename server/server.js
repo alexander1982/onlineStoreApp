@@ -43,7 +43,34 @@ app.get('/users/cart', authenticate, (req,res) => {
 	}
 	res.status(200).send(req.user);
 });
+//DELETE USER
+app.delete('/users/cart', authenticate, (req, res) => {
 
+	if(!objectId.isValid(req.body._id)) {
+		return res.status(404).send()
+	}
+	
+	User.findOneAndRemove({
+		                      _id     : req.body._id,
+	                        username: req.body.username,
+													email   : req.body.email
+	                      }).then((user) => {
+		if(!user){
+			return res.status(400).send();
+		}
+		res.status(200).send(user);
+	}).catch((err) => {
+		res.status(400).send(err);
+	})
+});
+//DELETE TOKEN
+app.delete('/users/token', authenticate, (req, res) => {
+	req.user.removeToken(req.token).then(() => {
+		res.status(200).send();
+	},() => {
+		res.status(400).send();
+	});
+});
 //===================================================
 
 //ADD A NEW PRODUCT TO STORE
