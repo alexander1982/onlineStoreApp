@@ -18,17 +18,21 @@ app.use(bodyParser.json());
 app.post('/users', (req, res) => {
 	var body = _.pick(req.body,['name', 'email', 'username', 'password']);
 	var user = new User(body);
-
-	user.save().then((user) => {
-		return user.generateToken();  
-	}).then((token) => {
-		res.header('x-auth', token).send(user);
-	}).catch((err) => {
-		res.status(400).send(err.errmsg);
+	User.findOne({ email: body.email, username: body.username }).then((foundUser) => {
+		if(foundUser) {
+			return res.status(400).send('User with the same username already exist');
+		}
+		user.save().then((user) => {
+			return user.generateToken();
+		}).then((token) => {
+			res.header('x-auth', token).send(user);
+		}).catch((err) => {
+			res.status(400).send(err.errmsg);
+		});
 	});
 });
 //LIST OF ALL USERS
-app.get('/users', (req, res) => {
+app.get('/users', authenticate, (req, res) => {
 	User.find({}).then((usersList) => {
 		res.send(usersList);
 	},(err) => {
@@ -74,7 +78,7 @@ app.delete('/users/token', authenticate, (req, res) => {
 //===================================================
 
 //ADD A NEW PRODUCT TO STORE
-app.post('/products', (req,res) => {
+app.post('/products', authenticate, (req,res) => {
 	var body = _.pick(req.body, ['name', 'describtion', 'quantity']);
 	var product = new Product(body);
 	
@@ -88,7 +92,7 @@ app.post('/products', (req,res) => {
 	});
 });
 //FIND PRODUCT BY ID
-app.get('/products/:id', (req, res) => {
+app.get('/products/:id', authenticate, (req, res) => {
 	
 	Product.findById(req.params.id).then((product) => {
 		if(!product){
@@ -100,7 +104,7 @@ app.get('/products/:id', (req, res) => {
 	});
 });
 //GET LIST OF PRODUCTS
-app.get('/products', (req, res) => {
+app.get('/products', authenticate, (req, res) => {
 
 	Product.find({}).then((products) => {
 		if(!products){
@@ -112,7 +116,7 @@ app.get('/products', (req, res) => {
 	});
 });
 //UPDATE THE WHOLE PRODUCT
-app.patch('/products/:id', (req, res) => {
+app.patch('/products/:id', authenticate, (req, res) => {
 	var productId = req.params.id;
 	var formattedProduct = _.pick(req.body, ['name', 'describtion', 'quantity']);
 
@@ -130,12 +134,12 @@ app.patch('/products/:id', (req, res) => {
 	})
 });	
 //UPDATE QUANTITY OF THE PRODUCT
-app.patch('/products', (req, res) => {
+app.patch('/products', authenticate, (req, res) => {
 	var productId = req.body._id;
 	var newQuantity = req.body.quantity;
 	
 	if(newQuantity < 0){
-		throw new Error('The quantity must be a positive number');
+		return res.status(404).send('The quantity must be a positive number');
 	}
 
 	Product.findOneAndUpdate({_id: productId},{$set:{quantity: newQuantity}}, {new: true}).then((product) => {
@@ -148,7 +152,7 @@ app.patch('/products', (req, res) => {
 	})
 });
 //DELETE PRODUCT
-app.delete('/products/:id', (req, res) => {
+app.delete('/products/:id', authenticate, (req, res) => {
 	
 	//if(!objectId.isValid(productId)){
 	//	return res.status(404).send('The id is invalid');
@@ -163,6 +167,7 @@ app.delete('/products/:id', (req, res) => {
 		res.status(400).send(err);
 	})
 });
+
 app.listen(port, () => {
 	console.log(`Server is running on port`, port)
 });
