@@ -1,5 +1,5 @@
 require ('./config/config.js');
-const mongoose = require('./db/mongoose.js').mongoose;
+var mongoose = require('./db/mongoose.js').mongoose;
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.post('/users', (req, res) => {
 	var body = _.pick(req.body,['name', 'email', 'username', 'password']);
 	var user = new User(body);
-	User.findOne({ email: body.email, username: body.username }).then((foundUser) => {
-		if(foundUser) {
-			return res.status(400).send('User with the same username already exist');
-		}
+	//user.findOne({ email: body.email, username: body.username }).then((foundUser) => {
+	//	if(foundUser) {
+	//		return res.status(400).send('User with the same username already exist');
+	//	}
 		user.save().then((user) => {
 			return user.generateToken();
 		}).then((token) => {
@@ -29,7 +29,7 @@ app.post('/users', (req, res) => {
 		}).catch((err) => {
 			res.status(400).send(err.errmsg);
 		});
-	});
+	//});
 });
 //LIST OF ALL USERS
 app.get('/users', authenticate, (req, res) => {
@@ -46,6 +46,23 @@ app.get('/users/cart', authenticate, (req,res) => {
 		res.status(404).send('User not found');
 	}
 	res.status(200).send(req.user);
+});
+//UPDATE USER
+app.patch('/users/cart/:id', authenticate, (req, res) => {
+	var body = _.pick(req.body, ['name', 'username', 'email']);
+	
+	if(!objectId.isValid(req.params.id)){
+		return res.status(400).send('ID is invalid');
+	}
+
+	User.findOneAndUpdate({_id: req.params.id}, {$set: body}, {new: true}).then((user) => {
+		if(!user){
+			return res.status(400).send();
+		}
+		res.status(200).send(user);
+	}).catch((err) => {
+		res.status(400).send(err);
+	})
 });
 //DELETE USER
 app.delete('/users/cart', authenticate, (req, res) => {
@@ -76,11 +93,13 @@ app.delete('/users/token', authenticate, (req, res) => {
 	});
 });
 //===================================================
-
 //ADD A NEW PRODUCT TO STORE
 app.post('/products', authenticate, (req,res) => {
-	var body = _.pick(req.body, ['name', 'describtion', 'quantity']);
-	var product = new Product(body);
+	var product = new Product({
+		name       : req.body.name,
+		describtion: req.body.describtion,
+		quantity   : req.body.quantity
+	});
 	
 	product.save().then((product) => {
 		if(!product){

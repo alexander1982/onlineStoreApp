@@ -60,9 +60,7 @@ const products = [
 const populateProducts = (done) => {
 	Product.remove({}).then(() => {
 		return Product.insertMany(products);
-	}).then(() => {
-		done();
-	});
+	}).then(() => done());
 };
 
 module.exports = {
