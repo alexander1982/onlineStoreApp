@@ -1,17 +1,20 @@
 require ('./config/config.js');
-var mongoose = require('./db/mongoose.js').mongoose;
-const express = require('express');
-const bodyParser = require('body-parser');
-const _ = require('lodash');
+let mongoose = require('./db/mongoose.js').mongoose;
+let express = require('express');
+let path = require('path');
+let bodyParser = require('body-parser');
+let _ = require('lodash');
+let objectId = require('mongodb').ObjectID;
 
 const User = require('./models/userModel.js').User;
 const Product = require('./models/productModel.js').Product;
 const authenticate = require('./middlewears/authenticate.js').authenticate;
+const publicPath = path.join(__dirname, '../public');
 
-const objectId = require('mongodb').ObjectID;
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
 //ADD NEW USER
