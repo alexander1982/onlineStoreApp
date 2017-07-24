@@ -1,5 +1,11 @@
-@import "components/StoreApp";
+@import "./components/StoreApp";
 
-body {
-  height: 100vh;
+@import "./base/foundation-settings";
+@import "./base/variables";
+@import "~foundation-sites/scss/foundation.scss";
+@include foundation-xy-grid-classes;
+@include foundation-everything;
+
+.hide-scroll {
+  overflow: hidden;
 }

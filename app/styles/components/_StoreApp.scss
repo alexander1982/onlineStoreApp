@@ -1,6 +1,46 @@
-.valign-middle {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
+@import "../base/variables";
+
+.my-header {
+  background-color: $blue-bright-color;
+  .header-first-cell {
+    background-color: $yellow-bright-color;
+  }
+  .header-second-cell {
+    background-color: $orange-bright-color;
+  }
+  .header-third-cell {
+    background-color: $red-bright-color;
+  }
 }
+
+.first-cell {
+  background-color: $yellow-bright-color;
+}
+
+.second-cell {
+  background-color:   $brown-bright-color;
+  .second-inner-first-cell {
+    background-color:   $red-bright-color;
+  }
+
+  .second-inner-second-cell {
+    background-color:   $burgundy-bright-color;
+  }
+}
+
+.third-cell {
+  background-color: $orange-bright-color;
+}
+
+.fourth-cell {
+  background-color: $grey-bright-color;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.bottom-border {
+  border-bottom: .1rem solid grey;
+}
+
