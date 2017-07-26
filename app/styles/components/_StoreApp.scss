@@ -4,10 +4,24 @@
   padding-top: 3%;
 }
 
+.padding-bottom {
+  padding-bottom: 55%;
+}
+
+.background-transparent {
+  background-color: transparent;
+}
+
+.background-blue {
+  background-color: rgba(0, 0, 255, 0.18);
+}
+
 .border-menu {
   border-top: .1rem solid silver;
   border-right: .1rem solid silver;
+  border-bottom: .1rem solid silver;
   border-top-right-radius: 2%;
+  border-bottom-right-radius: 2%;
 }
 
 .my-header{

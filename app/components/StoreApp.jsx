@@ -5,10 +5,16 @@ const StoreApp = createClass({
 	render() {
 		return(
 					<div className="grid-y medium-grid-frame">
-						<div className="cell shrink header medium-1 medium-cell-block-container my-header">
+						<div className="cell shrink header medium-2 medium-cell-block-container my-header">
 							<div className="grid-x grid-padding-x">
-								<div className="cell">
+								<div className="cell medium-2 background-transparent">
+
+								</div>
+								<div className="cell medium-6">
 									A
+								</div>
+								<div className="cell medium-4">
+									b
 								</div>
 							</div>
 						</div>
@@ -31,15 +37,21 @@ const StoreApp = createClass({
 													</div>
 													<div className="cell large-cell-block-y medium-10 padding-top">
 														<div className="grid-x grid-margin-x">
-															<div className="cell large-3 large-cell-block-y first-cell border-menu">
-																<h4>Side menu</h4>
-																<ul>
-																	<li>Some generic</li>
-																	<li>Some generic</li>
-																	<li>Some generic</li>
-																	<li>Some generic</li>
-																	<li>Some generic</li>
-																</ul>
+															<div className="cell large-3 large-cell-block-y">
+																<div className="grid-y large-6">
+																	<div className="cell large-8 border-menu padding-bottom background-blue">
+																		<h4>Side menu</h4>
+																		<ul>
+																			<li>Some generic</li>
+																			<li>Some generic</li>
+																			<li>Some generic</li>
+																			<li>Some generic</li>
+																			<li>Some generic</li>
+																		</ul>
+																	</div>
+																	<div className="cell large-4 background-transparent">
+																	</div>
+																</div>
 															</div>
 															<div className="cell large-9 large-cell-block-y first-cell">
 																<h4>Independent scrolling left sidebar</h4>
