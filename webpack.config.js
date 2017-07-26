@@ -27,7 +27,9 @@ module.exports = {
 		new webpack.LoaderOptionsPlugin({
 			options: {
 				sassLoader: {
-					includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]
+					includePaths: [
+						path.resolve(__dirname, './node_modules/foundation-sites/scss')
+					]
 				}
 			}
 		})
@@ -51,6 +53,13 @@ module.exports = {
 				},
 				test   : /\.jsx?$/,
 				exclude: /(node_modules)/
+			},
+			{ test: /\.(png|woff|woff2|eot|ttf|svg)$/ ,
+				loader: 'url-loader?limit=100000'
+			},
+			{
+				test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+				loader: 'file-loader'
 			}
 		]
 	},

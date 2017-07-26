@@ -1,46 +1,158 @@
 @import "../base/variables";
 
-.my-header {
+.padding-top {
+  padding-top: 3%;
+}
+
+.border-menu {
+  border-top: .1rem solid silver;
+  border-right: .1rem solid silver;
+  border-top-right-radius: 2%;
+}
+
+.my-header{
   background-color: $blue-bright-color;
-  .header-first-cell {
+  .header-first-cell{
     background-color: $yellow-bright-color;
   }
-  .header-second-cell {
+  .header-second-cell{
     background-color: $orange-bright-color;
   }
-  .header-third-cell {
+  .header-third-cell{
     background-color: $red-bright-color;
   }
 }
 
-.first-cell {
+.first-cell{
   background-color: $yellow-bright-color;
 }
 
-.second-cell {
-  background-color:   $brown-bright-color;
-  .second-inner-first-cell {
-    background-color:   $red-bright-color;
+.second-cell{
+  background-color: $brown-bright-color;
+  .second-inner-first-cell{
+    background-color: $red-bright-color;
   }
 
-  .second-inner-second-cell {
-    background-color:   $burgundy-bright-color;
+  .second-inner-second-cell{
+    background-color: $burgundy-bright-color;
   }
 }
 
-.third-cell {
+.third-cell{
   background-color: $orange-bright-color;
 }
 
-.fourth-cell {
+.fourth-cell{
   background-color: $grey-bright-color;
 }
 
-::-webkit-scrollbar {
+::-webkit-scrollbar{
   display: none;
 }
 
-.bottom-border {
-  border-bottom: .1rem solid grey;
+.img-wrap{
+  float: right;
 }
+
+.slider{
+  text-align: center;
+  background-color: inherit!important;
+  .slick-slide {
+    margin: 2px;
+  }
+  /* the parent */
+  .slick-list {
+    margin: 0;
+  }
+  .slick-dots li{
+    font-size: small;
+  }
+}
+
+/* Dots */
+.slick-slider
+{
+  margin-bottom: 0;
+}
+
+.slick-dots
+{
+  position: absolute;
+  margin: 0 0 0 40%;
+
+  display: block;
+
+  padding: 0;
+
+  list-style: none;
+
+  text-align: center;
+}
+.slick-dots li
+{
+  position: relative;
+
+  display: inline-block;
+
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+
+  cursor: pointer;
+}
+.slick-dots li button
+{
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+
+  display: block;
+
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+
+  cursor: pointer;
+
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+.slick-dots li button:hover,
+.slick-dots li button:focus
+{
+  outline: none;
+  margin: 0;
+}
+.slick-dots li button:hover:before,
+.slick-dots li button:focus:before
+{
+  opacity: 1;
+  margin: 0;
+}
+.slick-dots li button:before
+{
+  font-size: small;
+  line-height: 20px;
+
+  position: absolute;
+  margin: 0 0 5px 0;
+
+  content: url('http://www.akmmos.ru/bitrix/templates/main/img/bullet.png');
+  text-align: center;
+
+  opacity: .45;
+  color: #6d6d6d;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.slick-dots li.slick-active button:before
+{
+  opacity: .75;
+  color: #464646;
+}
+
 
