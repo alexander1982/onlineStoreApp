@@ -1,7 +1,27 @@
 @import "../base/variables";
 
+button.button {
+  margin-bottom: 0;
+}
+
+.link-mix {
+  padding: .1rem;
+  border: .1rem solid aqua;
+}
+
+.border-bottom {
+  border-bottom: .1rem solid grey;
+}
+
+.background-img {
+  background: url("/images/view2.jpg") center;
+  background-size: cover;
+  padding: .5rem;
+  min-height: 18vh!important;
+}
+
 .padding-top {
-  padding-top: 3%;
+  padding-top: 40%;
 }
 
 .padding-bottom {
@@ -13,7 +33,11 @@
 }
 
 .background-blue {
-  background-color: rgba(0, 0, 255, 0.18);
+   background-color: rgba(0, 0, 255, 0.18);
+ }
+
+.background-pink {
+  background-color: rgba(255, 0, 139, 0.18);
 }
 
 .border-menu {
@@ -24,8 +48,10 @@
   border-bottom-right-radius: 2%;
 }
 
+.cell-padding {
+  padding: 0 .4rem .4rem .4rem;
+}
 .my-header{
-  background-color: $blue-bright-color;
   .header-first-cell{
     background-color: $yellow-bright-color;
   }
@@ -38,7 +64,7 @@
 }
 
 .first-cell{
-  background-color: $yellow-bright-color;
+  background-color: transparent;
 }
 
 .second-cell{
@@ -60,9 +86,7 @@
   background-color: $grey-bright-color;
 }
 
-::-webkit-scrollbar{
-  display: none;
-}
+
 
 .img-wrap{
   float: right;
@@ -71,8 +95,9 @@
 .slider{
   text-align: center;
   background-color: inherit!important;
+  margin-top: 0!important;
   .slick-slide {
-    margin: 2px;
+    margin: 0 2px 0 2px!important;
   }
   /* the parent */
   .slick-list {

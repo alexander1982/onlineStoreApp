@@ -18,14 +18,17 @@ $(document).ready(() => {
 		                   infinite      : true,
 		                   speed         : 500,
 		                   autoplay      : true,
-		                   slidesToShow  : 5,
+		                   slidesToShow  : 7,
 		                   slidesToScroll: 1,
-		                   cssEase       : 'linear',
-		                   centerMode    : true
+		                   cssEase       : 'linear'
 	                   });
+	$('#slim').slimScroll({
+		width: '50px'
+	               });
 });
 
 require('style-loader!css-loader!sass-loader!ApplicationStyles');
+
 
 ReactDOM.render(
 <Provider store={store}>

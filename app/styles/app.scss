@@ -1,5 +1,4 @@
 @import "./components/StoreApp";
-
 @import "./base/foundation-settings";
 @import "./base/variables";
 @import "~foundation-sites/scss/foundation.scss";
@@ -8,5 +7,5 @@
 @include foundation-everything;
 
 .hide-scroll {
-  overflow: hidden;
+  overflow: auto;
 }

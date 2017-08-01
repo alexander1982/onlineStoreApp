@@ -5,6 +5,7 @@ module.exports = {
 	entry    : [
 		'script-loader!jquery/dist/jquery.min.js',
 		'script-loader!foundation-sites/dist/js/foundation.min.js',
+		'script-loader!jquery-slimscroll/jquery.slimscroll.min.js',
 		'./app/app.jsx'
 	],
 	externals: {
@@ -41,7 +42,7 @@ module.exports = {
 			Reducers         : 'app/reducers/reducers.jsx',
 			ConfigureStore   : 'app/store/configureStore.jsx'
 		},
-		extensions: ['.jsx', '.js', '.scss'],
+		extensions: ['.jsx', '.js', '.scss', '.png'],
 		modules   : [__dirname, 'node_modules', './app/components']
 	},
 	module   : {
@@ -54,12 +55,9 @@ module.exports = {
 				test   : /\.jsx?$/,
 				exclude: /(node_modules)/
 			},
-			{ test: /\.(png|woff|woff2|eot|ttf|svg)$/ ,
-				loader: 'url-loader?limit=100000'
-			},
 			{
-				test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-				loader: 'file-loader'
+				test: /\.(png|jpg|jpeg|gif|woff)$/,
+				loader: 'url-loader'
 			}
 		]
 	},
