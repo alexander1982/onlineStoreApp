@@ -1,12 +1,68 @@
 @import "../base/variables";
 
+//Top Bar
+.top-bar {
+  background-color: $background-color!important;
+}
+
+.top-bar a {
+ color: $menu-font-color;
+}
+
+.top-bar a:active {
+  color: green!important;
+
+}
+
+.top-bar a:hover {
+  border-bottom: .1rem solid $border-color;
+  color: $menu-font-color;
+}
+
+ul.dropdown.menu {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.icon-medium {
+  font-size: 2rem;
+}
+
+.icon-container-setup {
+  border: .1rem solid #6ca022;
+  color:  #6ca022;
+  background-color: $background-color;
+  border-radius: 100%;
+  padding: .2rem .6rem .2rem .5rem;
+}
+
 button.button {
   margin-bottom: 0;
 }
 
+.padding-button-container {
+  padding-bottom: 0!important;
+  padding-top: 1.3rem!important;
+}
+
+.padding-for-slider-container {
+  padding: 1rem 1rem 1rem 1rem!important;
+  margin-bottom: 0!important;
+}
+
 .link-mix {
   padding: .1rem;
-  border: .1rem solid aqua;
+  border: .1rem solid $border-color;
+  color:  $menu-font-color;
+  cursor: pointer;
+  background-color: $background-color;
+  text-shadow: 0 0 .1rem grey;
+  text-align: center;
+}
+
+.section:hover div {
+  border: .1rem solid $on-hover-border-color;
+  padding: .2rem;
 }
 
 .border-bottom {
@@ -96,9 +152,6 @@ button.button {
   text-align: center;
   background-color: inherit!important;
   margin-top: 0!important;
-  .slick-slide {
-    margin: 0 2px 0 2px!important;
-  }
   /* the parent */
   .slick-list {
     margin: 0;

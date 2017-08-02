@@ -14,17 +14,14 @@ $(document).ready(() => {
 	$(".slider").slick({
 		                   // normal options..
 		                   arrows        : false,
-		                   dots          : true,
+		                   dots          : false,
 		                   infinite      : true,
-		                   speed         : 500,
+		                   speed         : 400,
 		                   autoplay      : true,
-		                   slidesToShow  : 7,
+		                   slidesToShow  : 1,
 		                   slidesToScroll: 1,
 		                   cssEase       : 'linear'
 	                   });
-	$('#slim').slimScroll({
-		width: '50px'
-	               });
 });
 
 require('style-loader!css-loader!sass-loader!ApplicationStyles');
