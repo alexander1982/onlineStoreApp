@@ -7,6 +7,7 @@ let store = require('ConfigureStore').configure();
 window.jQuery = $;
 let slick = require('slick-carousel');
 
+
 $(document).foundation();
 
 $(document).ready(() => {
@@ -22,6 +23,12 @@ $(document).ready(() => {
 		                   slidesToScroll: 1,
 		                   cssEase       : 'linear'
 	                   });
+	$('#play-video').on('click', function(ev) {
+
+		$("#video")[0].src += "&autoplay=1";
+		ev.preventDefault();
+
+	});
 });
 
 require('style-loader!css-loader!sass-loader!ApplicationStyles');

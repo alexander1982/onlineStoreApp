@@ -1,27 +1,76 @@
 @import "../base/variables";
 
+.body-height {
+  height: 29rem;
+}
+
+.background-color {
+  background-color: $background-color;
+}
+
+.body-border {
+  border-top: .1rem solid $border-color;
+}
+
 //Top Bar
 .top-bar {
   background-color: $background-color!important;
+  border: .1rem solid $border-color;
 }
 
-.top-bar a {
+
+button.button {
+  margin-bottom: 0;
+}
+
+button.right-menu {
+  margin-bottom: .2rem;
+}
+
+button.authorize {
+  border: .1rem solid #6CA022;
+}
+
+input[type="submit"].search-submit {
+  border: .1rem solid #6CA022;
+}
+
+button,
+input[type="reset"],
+input[type="button"],
+input[type="submit"],
+input[type="file"] > input[type="button"] {
+  outline: none;
+}
+
+.top-bar button {
  color: $menu-font-color;
+  background-color: transparent;
 }
 
-.top-bar a:active {
+.top-bar button:active {
   color: green!important;
-
+  outline: none!important;
+  background-color: transparent;
 }
 
-.top-bar a:hover {
-  border-bottom: .1rem solid $border-color;
-  color: $menu-font-color;
+.top-bar button:hover {
+  color: green;
+  text-shadow: .03rem 0 0 $border-color;
+  background-color: transparent;
 }
 
 ul.dropdown.menu {
   background-color: transparent;
   border-bottom: none;
+}
+
+.padding-left-none {
+  padding-left: 0!important;
+}
+
+.filters {
+  height: 1.5rem!important;
 }
 
 .icon-medium {
@@ -34,10 +83,6 @@ ul.dropdown.menu {
   background-color: $background-color;
   border-radius: 100%;
   padding: .2rem .6rem .2rem .5rem;
-}
-
-button.button {
-  margin-bottom: 0;
 }
 
 .padding-button-container {
@@ -97,11 +142,7 @@ button.button {
 }
 
 .border-menu {
-  border-top: .1rem solid silver;
-  border-right: .1rem solid silver;
-  border-bottom: .1rem solid silver;
-  border-top-right-radius: 2%;
-  border-bottom-right-radius: 2%;
+  border: .1rem solid $border-color;
 }
 
 .cell-padding {
