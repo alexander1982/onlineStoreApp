@@ -1,7 +1,21 @@
 @import "../base/variables";
 
+.product {
+  height: 10vw;
+  margin-bottom: 1rem;
+}
+
+.product-img {
+  height: 8vw;
+}
+
 .body-height {
-  height: 29rem;
+  height: 33vw;
+}
+
+.left-lower-menu-height {
+  height: 15.5vw;
+  margin-top: 2rem;
 }
 
 .background-color {
@@ -9,7 +23,7 @@
 }
 
 .body-border {
-  border-top: .1rem solid $border-color;
+  border: .1rem solid $border-color;
 }
 
 //Top Bar
@@ -82,7 +96,7 @@ ul.dropdown.menu {
   color:  #6ca022;
   background-color: $background-color;
   border-radius: 100%;
-  padding: .2rem .6rem .2rem .5rem;
+  padding: .1rem .6rem .1rem .5rem;
 }
 
 .padding-button-container {
@@ -110,15 +124,11 @@ ul.dropdown.menu {
   padding: .2rem;
 }
 
-.border-bottom {
-  border-bottom: .1rem solid grey;
-}
-
 .background-img {
   background: url("/images/view2.jpg") center;
   background-size: cover;
   padding: .5rem;
-  min-height: 18vh!important;
+  min-height: 3vw!important;
 }
 
 .padding-top {
