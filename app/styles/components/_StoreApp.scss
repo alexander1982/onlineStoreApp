@@ -1,16 +1,23 @@
 @import "../base/variables";
 
+body { font-size: 1.2rem!important; }
+
+p {
+  margin-bottom: 0!important;
+}
+
 .product {
-  height: 10vw;
+  height: 10rem;
   margin-bottom: 1rem;
 }
 
 .product-img {
-  height: 8vw;
+  width: 8.5rem!important;
+  padding: 0!important;
 }
 
 .body-height {
-  height: 33vw;
+  height: 32.5rem;
 }
 
 .left-lower-menu-height {

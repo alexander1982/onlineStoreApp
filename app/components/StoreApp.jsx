@@ -9,7 +9,7 @@ const StoreApp = createClass({
 		                             <div className="grid-y grid-frame">
 			                             <div className="header cell medium-2 shrink background-img"></div>
 			                             <div className="cell shrink header medium-cell-block-container">
-				                             <div className="header cell shrink">
+				                             <div className="header cell hide-for-medium-only hide-for-small-only">
 					                             <div className="grid-x">
 						                             <div className="medium-1 cell"></div>
 						                             <div className="medium-10 cell">
@@ -56,8 +56,8 @@ const StoreApp = createClass({
 
 			                             <div className="grid-x grid-margin-x">
 				                             <div className="medium-1 cell"></div>
-				                             <div className="medium-2 cell medium-cell-block-container">
-						                             <div className="medium-auto cell">
+				                             <div className="medium-2 cell medium-cell-block-container ">
+						                             <div className="medium-auto cell hide-for-medium-only hide-for-small-only">
 							                             <button className="button expanded right-menu" type="button">First button</button>
 							                             <button className="button expanded right-menu" type="button">Second button</button>
 							                             <button className="button expanded right-menu" type="button">Third button</button>
@@ -66,176 +66,108 @@ const StoreApp = createClass({
 						                             </div>
 				                             </div>
 
-				                             <div className="medium-6 cell medium-cell-block-container">
-					                            <div className="grid-y grid-padding-x">
+				                             <div className="large-6 medium-12 small-12 cell medium-cell-block-container">
+					                            <div className="grid-y">
 						                            <div className="medium-1 cell">
 							                            <div className="input-group">
-								                            <span className="input-group-label">Search the product by name</span>
-								                            <input className="input-group-field" type="number"/>
+								                            <input className="input-group-field" type="text" placeholder="Search item by name"/>
 									                            <div className="input-group-button">
 										                            <input type="submit" className="button" value="Submit"/>
 									                            </div>
 							                            </div>
 						                            </div>
+
 						                            <div className="cell medium-cell-block-y body-height">
                                          <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-	                                         <div className="cell medium-2">
-			                                         <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
+	                                         <div className="cell medium-3 small-6">
+			                                         <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
 	                                         </div>
-	                                         <div className="medium-7 cell">
+	                                         <div className="medium-7 cell small-6">
 		                                         <div className="grid-y">
 			                                         <div className="medium-1 cell">
-				                                         <h4>Name of the product  alalalallalal alalalla</h4>
-				                                         <h4>ILS 7.5</h4>
+				                                         <p>Name of the product  alalalallalal alalalla</p>
+				                                         <p>ILS 7.5</p>
 			                                         </div>
 		                                         </div>
 	                                         </div>
+                                       </div>
 
-	                                         <div className="medium-3 cell text-center">
-		                                         <div className="grid-y">
-			                                         <div className="medium-1 cell">
-				                                         <p>order now</p>
-				                                         <p>to wish list</p>
-			                                         </div>
-		                                         </div>
-	                                         </div>
-
-                                         </div>
 							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-2">
-									                            <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
+								                            <div className="cell medium-3 small-6">
+									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
 								                            </div>
-								                            <div className="medium-7 cell">
+								                            <div className="medium-7 cell small-6">
 									                            <div className="grid-y">
 										                            <div className="medium-1 cell">
-											                            <h4>Name of the product  alalalallalal alalalla</h4>
-											                            <h4>ILS 7.5</h4>
+											                            <p>Name of the product  alalalallalal alalalla</p>
+											                            <p>ILS 7.5</p>
 										                            </div>
 									                            </div>
 								                            </div>
-
-								                            <div className="medium-3 cell text-center">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>order now</p>
-											                            <p>to wish list</p>
-										                            </div>
-									                            </div>
-								                            </div>
-
 							                            </div>
+
 							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-2">
-									                            <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
+								                            <div className="cell medium-3 small-6">
+									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
 								                            </div>
-								                            <div className="medium-7 cell">
+								                            <div className="medium-7 small-6 cell">
 									                            <div className="grid-y">
 										                            <div className="medium-1 cell">
-											                            <h4>Name of the product  alalalallalal alalalla</h4>
-											                            <h4>ILS 7.5</h4>
+											                            <p>Name of the product  alalalallalal alalalla</p>
+											                            <p>ILS 7.5</p>
 										                            </div>
 									                            </div>
 								                            </div>
-
-								                            <div className="medium-3 cell text-center">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>order now</p>
-											                            <p>to wish list</p>
-										                            </div>
-									                            </div>
-								                            </div>
-
 							                            </div>
+
 							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-2">
-									                            <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
+								                            <div className="cell medium-3 small-6">
+									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
 								                            </div>
-								                            <div className="medium-7 cell">
+								                            <div className="medium-7 small-6 cell">
 									                            <div className="grid-y">
 										                            <div className="medium-1 cell">
-											                            <h4>Name of the product  alalalallalal alalalla</h4>
-											                            <h4>ILS 7.5</h4>
+											                            <p>Name of the product  alalalallalal alalalla</p>
+											                            <p>ILS 7.5</p>
 										                            </div>
 									                            </div>
 								                            </div>
-
-								                            <div className="medium-3 cell text-center">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>order now</p>
-											                            <p>to wish list</p>
-										                            </div>
-									                            </div>
-								                            </div>
-
 							                            </div>
+
 							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-2">
-									                            <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
+								                            <div className="cell medium-3 small-6">
+									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
 								                            </div>
-								                            <div className="medium-7 cell">
+								                            <div className="medium-7 small-6 cell">
 									                            <div className="grid-y">
 										                            <div className="medium-1 cell">
-											                            <h4>Name of the product  alalalallalal alalalla</h4>
-											                            <h4>ILS 7.5</h4>
+											                            <p>Name of the product  alalalallalal alalalla</p>
+											                            <p>ILS 7.5</p>
 										                            </div>
 									                            </div>
 								                            </div>
-
-								                            <div className="medium-3 cell text-center">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>order now</p>
-											                            <p>to wish list</p>
-										                            </div>
-									                            </div>
-								                            </div>
-
 							                            </div>
-							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-2">
-									                            <img className="product-img" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-								                            </div>
-								                            <div className="medium-7 cell">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <h4>Name of the product  alalalallalal alalalla</h4>
-											                            <h4>ILS 7.5</h4>
-										                            </div>
-									                            </div>
-								                            </div>
 
-								                            <div className="medium-3 cell text-center">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>order now</p>
-											                            <p>to wish list</p>
-										                            </div>
-									                            </div>
-								                            </div>
-
-							                            </div>
 						                            </div>
 					                            </div>
 				                             </div>
 
-				                             <div className="medium-auto cell medium-cell-block-container">
+				                             <div className="medium-auto cell hide-for-medium-only">
 					                             <div className="grid-y grid-padding-y">
 						                             <div className="slider cell medium-3 hide-for-small-only padding-for-slider-container body-border">
-							                             <div><img src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg"/>
+							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg"/>
 							                             </div>
-							                             <div><img src="https://i.warosu.org/data/ck/img/0040/04/1353091314525.jpg"/>
+							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0040/04/1353091314525.jpg"/>
 							                             </div>
-							                             <div><img src="https://i.warosu.org/data/ck/thumb/0084/53/1484087002126s.jpg"/>
+							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/thumb/0084/53/1484087002126s.jpg"/>
 							                             </div>
-							                             <div><img src="https://i.warosu.org/data/ck/img/0071/39/1449352067247.jpg"/>
+							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0071/39/1449352067247.jpg"/>
 							                             </div>
-							                             <div><img src="https://i.warosu.org/data/ck/img/0052/51/1394166286637.jpg"/>
+							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0052/51/1394166286637.jpg"/>
 							                             </div>
 						                             </div>
 					                             </div>
-					                             <div className="cell medium-auto medium-cell-block-y">
+					                             <div className="cell medium-auto medium-cell-block-y hide-for-medium-only hide-for-small-only">
 						                             <h3>Filters:</h3>
                                          <fieldset>
 	                                         <label>Bla bla:</label>
