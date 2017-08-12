@@ -1,11 +1,11 @@
 let redux = require('redux');
-import {showCompletedReducer, showTextReducer} from 'Reducers';
+import {firstButtonReducer, secondButtonReducer} from 'Reducers';
 
 export let configure = (initialState = {}) => {
 	
 	let reducer = redux.combineReducers({
-		showCompleted: showCompletedReducer,
-		showText: showCompletedReducer
+		firstButton: firstButtonReducer, 
+		secondButton: secondButtonReducer
 	                                    });
 	
 	let store = redux.createStore(reducer, initialState, redux.compose(

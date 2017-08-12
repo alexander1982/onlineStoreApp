@@ -1,212 +1,151 @@
 import React from 'react';
 let createClass = require('create-react-class');
 let $ = require('jquery');
+let actions = require('Actions');
+let api = require('API');
 
 const StoreApp = createClass({
+	                             handleGetProducts() {
+		                             api.getProducts();
+	                             },
+	                             handleGetProduct(id) {
+		                             api.getProduct(id);
+	                             },
+	                             handleAddProduct(e) {
+		                             e.preventDefault();
+		                             let newProduct = {
+			                             name       : this.refs.name.value,
+			                             describtion: this.refs.describtion.value,
+			                             quantity   : this.refs.qty.value
+		                             };
+
+		                             api.addProduct(newProduct);
+	                             },
+	                             handleUpdateProduct(id) {
+		                             let Product = {
+			                             name       : this.refs.nameOne.value,
+			                             describtion: this.refs.describtionOne.value,
+			                             quantity   : this.refs.qtyOne.value
+		                             };
+
+		                             api.updateProduct(id, Product);
+	                             },
+	                             handleDeleteProduct(id) {
+		                             api.deleteProduct(id);
+	                             },
+	                             handleGetUsers() {
+		                             api.getUsers();
+	                             },
+	                             handleAddUser(e) {
+		                             e.preventDefault();
+		                             let user = {
+			                             name    : this.refs.uName.value,
+			                             username: this.refs.username.value,
+			                             email   : this.refs.email.value,
+			                             password: this.refs.password.value
+		                             };
+
+		                             api.addUser(user);
+	                             },
+	                             handleDeleteUser() {
+		                             let userId = {
+			                             _id     : this.refs.id.value,
+			                             username: this.refs.usernameTwo.value,
+			                             email   : this.refs.emailTwo.value
+		                             };
+		                             api.removeUser(userId);
+	                             },
+	                             handleUpdateUser(id) {
+																let updatedUser = {
+																	name: this.refs.nameThree.value,
+																	username: this.refs.usernameThree.value,
+																	email: this.refs.emailThree.value
+																};
+		                             
+		                             api.updateUser(id, updatedUser);
+	                             },
 	                             render() {
 		                             return (
-		                           <div>
 		                             <div className="grid-y grid-frame">
-			                             <div className="header cell medium-2 shrink background-img"></div>
-			                             <div className="cell shrink header medium-cell-block-container">
-				                             <div className="header cell hide-for-medium-only hide-for-small-only">
-					                             <div className="grid-x">
-						                             <div className="medium-1 cell"></div>
-						                             <div className="medium-10 cell">
-							                             <div className="grid-x align-middle">
-								                             <div className="medium-7 cell">
-									                             <div className="top-bar">
-										                             <div className="top-bar-left">
-											                             <ul className="dropdown menu" data-dropdown-menu>
-												                             <li><button type="button" className="button">First link</button></li>
-												                             <li><button type="button" className="button">Second link</button></li>
-												                             <li><button type="button" className="button">Third link</button></li>
-												                             <li><button type="button" className="button">Fourth link</button></li>
-											                             </ul>
-										                             </div>
-									                             </div>
-								                             </div>
+			                             <div className="medium-4 cell"></div>
 
-								                             <div className="medium-3 cell"></div>
-								                             <div className="medium-2 cell">
-									                             <div className="grid-x grid-padding-y">
-										                             <div className="medium-3 cell">
-											                             <i
-											                             className="fi-list-bullet align-center icon-medium icon-container-setup"></i>
-										                             </div>
-										                             <div className="medium-3 cell">
-											                             <i
-											                             className="fi-shopping-cart align-center icon-medium icon-container-setup"></i>
-										                             </div>
-										                             <div className="medium-3 cell padding-button-container">
-											                             <button type="button" className="button tiny authorize">Signin</button>
-										                             </div>
-
-										                             <div className="medium-3 cell padding-button-container">
-											                             <button type="button" className="button tiny authorize">Login</button>
-										                             </div>
-									                             </div>
-								                             </div>
-							                             </div>
-						                             </div>
-
+			                             <div className="medium-4 cell">
+				                             <div className="grid-x">
+					                             <div className="medium-4 cell"></div>
+					                             <div className="medium-4 cell text-center" style={{backgroundColor: "beige"}}>
+						                             <button className="button success" type="submit"
+						                                     onClick={this.handleGetProducts}>Press me
+						                             </button>
+						                             <button className="button" type="submit"
+						                                     onClick={this.handleGetProduct.bind(this,'58fa3d6df7374e079c2c2947')}>
+							                             Press me
+						                             </button>
+						                             <button className="button primary" type="submit"
+						                                     onClick={this.handleGetUsers}>
+							                             Press me
+						                             </button>
+						                             <button className="button warning" type="submit"
+						                                     onClick={this.handleDeleteUser.bind(this, '598f3d459942961730154ede')}>
+							                             Press me
+						                             </button>
 					                             </div>
+					                             <div className="medium-4 cell"></div>
 				                             </div>
 			                             </div>
-
-			                             <div className="grid-x grid-margin-x">
-				                             <div className="medium-1 cell"></div>
-				                             <div className="medium-2 cell medium-cell-block-container ">
-						                             <div className="medium-auto cell hide-for-medium-only hide-for-small-only">
-							                             <button className="button expanded right-menu" type="button">First button</button>
-							                             <button className="button expanded right-menu" type="button">Second button</button>
-							                             <button className="button expanded right-menu" type="button">Third button</button>
-							                             <button className="button expanded right-menu" type="button">Fourth button</button>
-							                             <button className="button expanded right-menu" type="button">Fifth button</button>
-						                             </div>
-				                             </div>
-
-				                             <div className="large-6 medium-12 small-12 cell medium-cell-block-container">
-					                            <div className="grid-y">
-						                            <div className="medium-1 cell">
-							                            <div className="input-group">
-								                            <input className="input-group-field" type="text" placeholder="Search item by name"/>
-									                            <div className="input-group-button">
-										                            <input type="submit" className="button" value="Submit"/>
-									                            </div>
-							                            </div>
-						                            </div>
-
-						                            <div className="cell medium-cell-block-y body-height">
-                                         <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-	                                         <div className="cell medium-3 small-6">
-			                                         <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-	                                         </div>
-	                                         <div className="medium-7 cell small-6">
-		                                         <div className="grid-y">
-			                                         <div className="medium-1 cell">
-				                                         <p>Name of the product  alalalallalal alalalla</p>
-				                                         <p>ILS 7.5</p>
-			                                         </div>
-		                                         </div>
-	                                         </div>
-                                       </div>
-
-							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-3 small-6">
-									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-								                            </div>
-								                            <div className="medium-7 cell small-6">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>Name of the product  alalalallalal alalalla</p>
-											                            <p>ILS 7.5</p>
-										                            </div>
-									                            </div>
-								                            </div>
-							                            </div>
-
-							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-3 small-6">
-									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-								                            </div>
-								                            <div className="medium-7 small-6 cell">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>Name of the product  alalalallalal alalalla</p>
-											                            <p>ILS 7.5</p>
-										                            </div>
-									                            </div>
-								                            </div>
-							                            </div>
-
-							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-3 small-6">
-									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-								                            </div>
-								                            <div className="medium-7 small-6 cell">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>Name of the product  alalalallalal alalalla</p>
-											                            <p>ILS 7.5</p>
-										                            </div>
-									                            </div>
-								                            </div>
-							                            </div>
-
-							                            <div className="grid-x grid-padding-y grid-padding-x product border-menu">
-								                            <div className="cell medium-3 small-6">
-									                            <img className="product-img thumbnail" src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg" alt="Photo of Uranus."/>
-								                            </div>
-								                            <div className="medium-7 small-6 cell">
-									                            <div className="grid-y">
-										                            <div className="medium-1 cell">
-											                            <p>Name of the product  alalalallalal alalalla</p>
-											                            <p>ILS 7.5</p>
-										                            </div>
-									                            </div>
-								                            </div>
-							                            </div>
-
-						                            </div>
-					                            </div>
-				                             </div>
-
-				                             <div className="medium-auto cell hide-for-medium-only">
-					                             <div className="grid-y grid-padding-y">
-						                             <div className="slider cell medium-3 hide-for-small-only padding-for-slider-container body-border">
-							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0056/48/1406749056589.jpg"/>
-							                             </div>
-							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0040/04/1353091314525.jpg"/>
-							                             </div>
-							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/thumb/0084/53/1484087002126s.jpg"/>
-							                             </div>
-							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0071/39/1449352067247.jpg"/>
-							                             </div>
-							                             <div className="thumbnail"><img src="https://i.warosu.org/data/ck/img/0052/51/1394166286637.jpg"/>
-							                             </div>
-						                             </div>
+			                             <div className="medium-4 cell">
+				                             <div className="grid-x">
+					                             <div className="medium-2 cell">
+						                             <legend>Add Product</legend>
+						                             <form onSubmit={this.handleAddProduct}>
+							                             <input type="text" ref="name"/>
+							                             <input type="text" ref="describtion"/>
+							                             <input type="text" ref="qty"/>
+							                             <button className="button" type="submit">Do</button>
+						                             </form>
 					                             </div>
-					                             <div className="cell medium-auto medium-cell-block-y hide-for-medium-only hide-for-small-only">
-						                             <h3>Filters:</h3>
-                                         <fieldset>
-	                                         <label>Bla bla:</label>
-	                                         <input type="checkbox" id="checkbox1"/><label for="checkbox1">Filter this</label><br/>
-	                                         <input type="checkbox" id="checkbox2"/><label for="checkbox2">Filter this</label><br/>
-	                                         <input type="checkbox" id="checkbox3"/><label for="checkbox3">Filter this</label><br/>
-	                                         <label>Delivery options:</label>
-	                                         <input type="checkbox" id="checkbox4"/><label for="checkbox4">Free international shipping</label>
-                                         </fieldset>
-						                             <form>
-							                             <label>Filter by price:</label>
-							                             <div className="grid-x grid padding-y">
-								                             <div className="medium-2 cell">
-									                             <label for="from" className="text-left">From:</label>
-								                             </div>
-								                             <div className="medium-2 cell">
-									                             <input type="text" id="from"/>
-								                             </div>
-								                             <div className="medium-1 cell">
-									                             <label for="to" className="text-left">To:</label>
-								                             </div>
-								                             <div className="medium-2 cell">
-									                             <input type="text" id="to"/>
-								                             </div>
-								                             <div className="medium-3 cell">
-									                             <button type="submit" className="button tiny authorize">>>></button>
-								                             </div>
-							                             </div>
+					                             <div className="medium-2 cell">
+						                             <legend>Add User</legend>
+						                             <form onSubmit={this.handleAddUser}>
+							                             <input type="text" ref="uName" placeholder="Name"/>
+							                             <input type="text" ref="email" placeholder="Email"/>
+							                             <input type="text" ref="username" placeholder="Username"/>
+							                             <input type="text" ref="password" placeholder="Password"/>
+							                             <button className="button secondary" type="submit">Do</button>
+						                             </form>
+					                             </div>
+					                             <div className="medium-2 cell">
+						                             <legend>Update Product</legend>
+						                             <form
+						                             onSubmit={this.handleUpdateProduct.bind(this, '598f029ece68e11f80ea1d4e')}>
+							                             <input type="text" ref="nameOne"/>
+							                             <input type="text" ref="describtionOne"/>
+							                             <input type="text" ref="qtyOne"/>
+							                             <button className="button" type="submit">Do</button>
+						                             </form>
+					                             </div>
+					                             <div className="medium-2 cell">
+						                             <legend>Remove user</legend>
+						                             <form
+						                             onSubmit={this.handleDeleteUser}>
+							                             <input type="text" ref="id" placeholder="id"/>
+							                             <input type="text" ref="usernameTwo" placeholder="username"/>
+							                             <input type="text" ref="emailTwo" placeholder="email"/>
+							                             <button className="button" type="submit">Do</button>
+						                             </form>
+					                             </div>
+					                             <div className="medium-2 cell">
+						                             <legend>Update user user</legend>
+						                             <form
+						                             onSubmit={this.handleUpdateUser.bind(this, '598f3edd9d8c112b78ec57ce')}>
+							                             <input type="text" ref="nameThree" placeholder="name"/>
+							                             <input type="text" ref="usernameThree" placeholder="username"/>
+							                             <input type="text" ref="emailThree" placeholder="email"/>
+							                             <button className="button" type="submit">Do</button>
 						                             </form>
 					                             </div>
 				                             </div>
-
-				                             <div className="medium-1 cell"></div>
-
 			                             </div>
-
 		                             </div>
-
-		                           </div>
 		                             )
 	                             }
                              });

@@ -1,16 +1,16 @@
-export var searchTextReducer = (state = '', action) => {
+export var firstButtonReducer = (state = '', action) => {
 	switch(action.type){
-		case 'SET_SEARCH_TEXT':
-			return action.searchText;
+		case 'FIRST_BUTTON':
+			return action.text1;
 		default:
 			return state;
 	}
 };
 
-export var showCompletedReducer = (state = false, action) => {
+export var secondButtonReduser = (state = '', action) => {
 	switch(action.type){
-		case 'TOGGLE_SHOW_COMPLETED':
-			return !state;
+		case 'SECOND_BUTTON':
+			return action.text2;
 		default:
 			return state;
 	}

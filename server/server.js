@@ -35,7 +35,7 @@ app.post('/users', (req, res) => {
 	//});
 });
 //LIST OF ALL USERS
-app.get('/users', authenticate, (req, res) => {
+app.get('/users', (req, res) => {
 	User.find({}).then((usersList) => {
 		res.send(usersList);
 	},(err) => {
@@ -51,7 +51,7 @@ app.get('/users/cart', authenticate, (req,res) => {
 	res.status(200).send(req.user);
 });
 //UPDATE USER
-app.patch('/users/cart/:id', authenticate, (req, res) => {
+app.patch('/users/cart/:id', (req, res) => {
 	var body = _.pick(req.body, ['name', 'username', 'email']);
 	
 	if(!objectId.isValid(req.params.id)){
@@ -68,7 +68,7 @@ app.patch('/users/cart/:id', authenticate, (req, res) => {
 	})
 });
 //DELETE USER
-app.delete('/users/cart', authenticate, (req, res) => {
+app.delete('/users/cart', (req, res) => {
 
 	if(!objectId.isValid(req.body._id)) {
 		return res.status(404).send()
@@ -97,7 +97,7 @@ app.delete('/users/token', authenticate, (req, res) => {
 });
 //===================================================
 //ADD A NEW PRODUCT TO STORE
-app.post('/products', authenticate, (req,res) => {
+app.post('/products', (req,res) => {
 	var product = new Product({
 		name       : req.body.name,
 		describtion: req.body.describtion,
@@ -114,7 +114,7 @@ app.post('/products', authenticate, (req,res) => {
 	});
 });
 //FIND PRODUCT BY ID
-app.get('/products/:id', authenticate, (req, res) => {
+app.get('/products/:id', (req, res) => {
 	
 	Product.findById(req.params.id).then((product) => {
 		if(!product){
@@ -126,7 +126,7 @@ app.get('/products/:id', authenticate, (req, res) => {
 	});
 });
 //GET LIST OF PRODUCTS
-app.get('/products', authenticate, (req, res) => {
+app.get('/products', (req, res) => {
 
 	Product.find({}).then((products) => {
 		if(!products){
@@ -138,7 +138,7 @@ app.get('/products', authenticate, (req, res) => {
 	});
 });
 //UPDATE THE WHOLE PRODUCT
-app.patch('/products/:id', authenticate, (req, res) => {
+app.patch('/products/:id', (req, res) => {
 	var productId = req.params.id;
 	var formattedProduct = _.pick(req.body, ['name', 'describtion', 'quantity']);
 
@@ -174,7 +174,7 @@ app.patch('/products', authenticate, (req, res) => {
 	})
 });
 //DELETE PRODUCT
-app.delete('/products/:id', authenticate, (req, res) => {
+app.delete('/products/:id', (req, res) => {
 	
 	//if(!objectId.isValid(productId)){
 	//	return res.status(404).send('The id is invalid');
