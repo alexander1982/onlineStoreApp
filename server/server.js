@@ -21,18 +21,19 @@ app.use(bodyParser.json());
 app.post('/users', (req, res) => {
 	var body = _.pick(req.body,['name', 'email', 'username', 'password']);
 	var user = new User(body);
-	//user.findOne({ email: body.email, username: body.username }).then((foundUser) => {
-	//	if(foundUser) {
-	//		return res.status(400).send('User with the same username already exist');
-	//	}
-		user.save().then((user) => {
-			return user.generateToken();
-		}).then((token) => {
-			res.header('x-auth', token).send(user);
-		}).catch((err) => {
-			res.status(400).send(err.errmsg);
-		});
-	//});
+	User.findOne({ email: body.email, username: body.username }).then((foundUser) => {
+		if(foundUser) {
+			return res.status(400).send('User with the same username or email already exist');
+		} else {
+			user.save().then((user) => {
+				return user.generateToken();
+			}).then((token) => {
+				res.header('x-auth', token).send(user);
+			}).catch((err) => {
+				res.status(400).send("Please check one of the fields");
+			});
+		}
+	});
 });
 //LIST OF ALL USERS
 app.get('/users', (req, res) => {
