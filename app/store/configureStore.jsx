@@ -1,16 +1,19 @@
-let redux = require('redux');
-import {firstButtonReducer, secondButtonReducer} from 'Reducers';
+import * as redux from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import promise from 'redux-promise-middleware';
+import { productsReducer, userReducer } from 'Reducers';
 
 export let configure = (initialState = {}) => {
-	
+
 	let reducer = redux.combineReducers({
-		firstButton: firstButtonReducer, 
-		secondButton: secondButtonReducer
+		                                    products: productsReducer,
+		                                    users   : userReducer
 	                                    });
-	
+
 	let store = redux.createStore(reducer, initialState, redux.compose(
-	window.devToolsExtension ? window.devToolsExtension() : f => f
-	));
-	
+	                              redux.applyMiddleware(thunk, logger, promise),
+	                              window.devToolsExtension? window.devToolsExtension() : f => f
+	                              ));
 	return store;
-}; 
+};

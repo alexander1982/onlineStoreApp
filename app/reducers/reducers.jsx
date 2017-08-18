@@ -1,16 +1,22 @@
-export var firstButtonReducer = (state = '', action) => {
-	switch(action.type){
-		case 'FIRST_BUTTON':
-			return action.text1;
+
+
+export let productsReducer = (state = [], action) => {
+	switch (action.type) {
+		case 'ADD_PRODUCTS':
+			console.log('test');
+			return [
+				...state,
+				action.products
+			];
 		default:
 			return state;
 	}
 };
 
-export var secondButtonReduser = (state = '', action) => {
-	switch(action.type){
-		case 'SECOND_BUTTON':
-			return action.text2;
+export let userReducer = (state = [], action) => {
+	switch (action.type) {
+		case 'ADD_USERS':
+			return action.users;
 		default:
 			return state;
 	}

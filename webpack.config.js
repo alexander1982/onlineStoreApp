@@ -44,7 +44,7 @@ module.exports = {
 			Reducers         : 'app/reducers/reducers.jsx',
 			ConfigureStore   : 'app/store/configureStore.jsx'
 		},
-		extensions: ['.jsx', '.js', '.scss', '.png'],
+		extensions: ['.jsx', '.js', '.scss'],
 		modules   : [__dirname, 'node_modules', './app/components']
 	},
 	module   : {

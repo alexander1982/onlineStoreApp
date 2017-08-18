@@ -3,10 +3,13 @@ let ReactDOM = require('react-dom');
 import { Provider } from 'react-redux';
 let $ = require('jquery');
 let StoreApp = require('StoreApp');
+let actions = require('Actions');
 let store = require('ConfigureStore').configure();
+
 window.jQuery = $;
 let slick = require('slick-carousel');
 
+store.dispatch(actions.startAddProducts());
 
 $(document).foundation();
 
@@ -32,7 +35,6 @@ $(document).ready(() => {
 });
 
 require('style-loader!css-loader!sass-loader!ApplicationStyles');
-
 
 ReactDOM.render(
 <Provider store={store}>

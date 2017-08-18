@@ -1,18 +1,10 @@
 let $ = require('jquery');
+let axios = require('axios');
 
 module.exports = {
 	//PRODUCTS API
 	getProducts() {
-		$.ajax({
-			       url    : "/products",
-			       type   : "GET",
-			       success: (data) => {
-				       console.log(data);
-			       },
-			       error  : (error) => {
-				       console.log(error.responseText);
-			       }
-		       });
+		return axios.get("/products");
 	},
 	getProduct(id) {
 		$.ajax({
