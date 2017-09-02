@@ -7,14 +7,13 @@ import Product from "Product";
 
 export let ProductsList = createClass({
 	                                      render() {
-		                                      let {products} = this.props;
+		                                      let { products, searchText, gOnly, range } = this.props;
 		                                      let renderProducts = () => {
-				                                      products.map((product) => {
-					                                      return (
-					                                      <Product key={product._id} {...product}/>
-					                                      )
-				                                      });
-
+			                                      return api.filterProducts(products, searchText, gOnly, range).map((product) => {
+				                                      return (
+				                                      <Product key={product._id} {...product}/>
+				                                      )
+			                                      });
 		                                      };
 		                                      return (
 		                                      <div>

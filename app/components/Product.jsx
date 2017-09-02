@@ -7,9 +7,9 @@ export let Product = createClass({
 		                                 let { _id, name, describtion, quantity } = this.props;
 		                                 return (
 		                                  <div>
-			                                  <p>{name}</p>
-			                                  <p>{describtion}</p>
-			                                  <p>{quantity}</p>
+			                                  <span>{name} </span>
+			                                  <span>{describtion} </span>
+			                                  <span>{quantity}</span>
 		                                  </div>
 		                                 )
 	                                 }

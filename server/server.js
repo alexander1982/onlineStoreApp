@@ -28,12 +28,24 @@ app.post('/users', (req, res) => {
 			user.save().then((user) => {
 				return user.generateToken();
 			}).then((token) => {
-				res.header('x-auth', token).send(user);
+				res.header('x-auth', token).send({username: user.username, id: user._id, email: user.email});
 			}).catch((err) => {
 				res.status(400).send("Please check one of the fields");
 			});
 		}
 	});
+});
+app.post('/users', (req, res) => {
+	var body = _.pick(req.body, ['email', 'password']);
+	User.findOne({email: body.email, password: body.password}).then((foundUser) => {
+		if(!foundUser) {
+			return res.status(400).send('No such user');
+		} else {
+			foundUser.generateToken().then((token) => {
+				res.header('x-auth', token).send(foundUser);
+			});
+		}
+	})
 });
 //LIST OF ALL USERS
 app.get('/users', (req, res) => {
