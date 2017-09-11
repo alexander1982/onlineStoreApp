@@ -59,18 +59,16 @@ module.exports = {
 		       });
 	},
 	//USER API
-	getUsers() {
-		$.ajax({
-			       url    : "/users",
-			       type   : "GET",
-			       success: (data) => {
-				       console.log(data);
-			       },
-			       error  : (error) => {
-				       console.log(error.responseText)
-			       }
-		       });
+	
+	//LOGIN
+	getUser(user) {
+		return axios.post("/users/login", user).then((response) => {
+			return response.data;
+		}).catch((error) => {
+			return error.response;
+		});
 	},
+	//SIGNIN
 	addUser(user) {
 		return axios.post("/users", user).then((response) => {
 			return response.data;

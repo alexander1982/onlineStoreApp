@@ -3,19 +3,21 @@ let createClass = require('create-react-class');
 let $ = require('jquery');
 let actions = require('Actions');
 let api = require('API');
-import ProductsList from "ProductsList";
-import ProductSearch from "ProductSearch";
-import Filters from "Filters";
-import Signin from 'Signin';
-import Login from 'Login';
+import RegisterButton from 'RegisterButton';
+import LoginButton from 'LoginButton';
+import SigninLogin from 'SigninLogin';
 
 const StoreApp = createClass({
 	                             getInitialState() {
 		                             return {
 			                             products     : undefined,
 			                             users        : undefined,
+			                             userErrorText: undefined,
 			                             gOnly        : false,
-			                             range        : undefined
+			                             range        : undefined,
+			                             register     : false,
+			                             login        : false,
+			                             signin       : false
 		                             };
 	                             },
 	                             handleSearch(searchText) {
@@ -35,16 +37,25 @@ const StoreApp = createClass({
 			                                           userErrorText: userErrorText
 		                                           });
 	                             },
+	                             handleToggleSignin(signin) {
+		                             this.setState({
+			                                           signin: signin
+		                                           })
+	                             },
+	                             handleToggleLogin(login) {
+		                             this.setState({
+			                                           login: login
+		                                           })
+	                             },
 	                             render() {
-		                             let { products, searchText, userErrorText, gOnly, range, users } = this.state;
+		                             let { products, searchText, userErrorText, gOnly, range, register, login, signin, users } = this.state;
+		                             
 		                             return (
 		                             <div className="grid-y grid-frame">
 			                             <div className="medium-auto cell">
-				                             <ProductSearch onSearch={this.handleSearch}/>
-				                             <ProductsList/>
-				                             <Filters onFilter={this.handleFilter}/>
-				                             <Signin onSubmit={this.handleUser} {...this.state}/>
-				                             <Login onSubmit={this.handleUser}/>
+				                             <RegisterButton onClick={this.handleToggleSignin}/>
+				                             <LoginButton onClick={this.handleToggleLogin}/>
+				                             <SigninLogin onSearch={this.handleSearch} onFilter={this.handleFilter}/>
 			                             </div>
 		                             </div>
 		                             )

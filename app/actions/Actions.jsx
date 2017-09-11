@@ -2,7 +2,7 @@ let api = require('API');
 
 export let setUser = (user) => {
 	return {
-		type: 'ADD_USER',
+		type: 'SET_USER',
 		user
 	}
 };
@@ -14,6 +14,19 @@ export let setUserErrorText = (userErrorText) => {
 	}
 };
 
+export let getExistUser = (user) => {
+	return (dispatch, getState) => {
+		api.getUser(user).then((response) => {
+			if(response.data){
+				dispatch(setUserErrorText(response.data));
+			} else {
+				dispatch(setUser(response));
+				dispatch(toggleLogin());
+			}
+		});
+	}
+};
+
 export let addNewUser = (user) => {
 	return (dispatch, getState) => {
 		api.addUser(user).then((response) => {
@@ -21,15 +34,22 @@ export let addNewUser = (user) => {
 				dispatch(setUserErrorText(response.data));
 			} else {
 				dispatch(setUser(response));
+				dispatch(toggleSignin());
 			}
 		});
 	}
 };
 
 export let getUser = (user) => {
-	return {
-		type: 'GET_USER',
-		user
+	return (dispatch, getState) => {
+		api.getUser(user).then((response) => {
+			if(response.data){
+				dispatch(setUserErrorText(response.data));
+			} else {
+				dispatch(setUser(response));
+				dispatch(toggleLogin());
+			}
+		})
 	}
 };
 
@@ -67,5 +87,23 @@ export let setRange = (range) => {
 	return {
 		type: 'SET_RANGE',
 		range
+	}
+};
+
+export let toggleRegister = () => {
+	return {
+		type: 'TOGGLE_REGISTER'
+	}
+};
+
+export let toggleLogin = () => {
+	return {
+		type: 'TOGGLE_LOGIN'
+	}
+};
+
+export let toggleSignin = () => {
+	return {
+		type: 'TOGGLE_SIGNIN'
 	}
 };

@@ -35,17 +35,17 @@ app.post('/users', (req, res) => {
 		}
 	});
 });
-app.post('/users', (req, res) => {
+//GET USER
+app.post('/users/login', (req, res) => {
 	var body = _.pick(req.body, ['email', 'password']);
-	User.findOne({email: body.email, password: body.password}).then((foundUser) => {
-		if(!foundUser) {
-			return res.status(400).send('No such user');
-		} else {
-			foundUser.generateToken().then((token) => {
-				res.header('x-auth', token).send(foundUser);
-			});
-		}
-	})
+
+	User.findByCredentials(body.email, body.password).then((user) => {
+		return user.generateToken().then((token) => {
+			res.header('x-auth', token).send(user)
+		});
+	}).catch((error) => {
+		res.status(400).send('Check email or password');
+	});
 });
 //LIST OF ALL USERS
 app.get('/users', (req, res) => {

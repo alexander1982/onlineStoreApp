@@ -12,21 +12,24 @@ export let Login = createClass({
 		                               return user;
 	                               },
 	                               render() {
-		                               let { dispatch } = this.props;
+		                               let { dispatch, userErrorText } = this.props;
 		                               return (
 		                               <div>
 			                               <fieldset>
 				                               <legend>Login</legend>
-				                               <input type="text" ref="email" placeholder="Email" value="email"/>
-				                               <input type="text" ref="password" placeholder="Password" value="password"/>
+				                               <input type="text" ref="email" placeholder="Email" value="Asdfsde2@gmail.com"/>
+				                               <input type="text" ref="password" placeholder="Password" value="Asdfsd5612"/>
 				                               <button type="submit" className="button button-primary" onClick={() => {
 				                                   dispatch(actions.getUser(this.setUser()));
 				                               }}
 				                               >Send
 				                               </button>
 			                               </fieldset>
+			                               <p>{userErrorText}</p>
 		                               </div>
 		                               )
 	                               }
                                });
-export default connect()(Login);
+export default connect((state) => {
+	return state;
+})(Login);

@@ -13,6 +13,7 @@ export let Signin = createClass({
 		                                };
 		                                return user;
 	                                },
+
 	                                render() {
 		                                let { dispatch, userErrorText } = this.props;
 		                                return (
@@ -34,4 +35,6 @@ export let Signin = createClass({
 		                                )
 	                                }
                                 });
-export default connect()(Signin);
+export default connect((state) => {
+	return state;
+})(Signin);

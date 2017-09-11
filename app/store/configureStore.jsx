@@ -7,18 +7,24 @@ userReducer,
 searchProductReducer,
 gOnlyReducer,
 rangeReducer,
-userErrorTextReducer
+userErrorTextReducer,
+toggleRegisterReducer,
+toggleLoginReducer,
+toggleSigninReducer
 } from 'Reducers';
 
 export let configure = (initialState = {}) => {
 
 	let reducer = redux.combineReducers({
-		                                    products: productsReducer,
-		                                    users: userReducer,
+		                                    products     : productsReducer,
+		                                    users        : userReducer,
 		                                    userErrorText: userErrorTextReducer,
-		                                    searchText: searchProductReducer,
-		                                    gOnly: gOnlyReducer,
-		                                    range: rangeReducer
+		                                    searchText   : searchProductReducer,
+		                                    gOnly        : gOnlyReducer,
+		                                    range        : rangeReducer,
+		                                    register     : toggleRegisterReducer,
+		                                    login        : toggleLoginReducer,
+		                                    signin       : toggleSigninReducer
 	                                    });
 
 	let store = redux.createStore(reducer, initialState, redux.compose(
