@@ -5,6 +5,7 @@ let actions = require('Actions');
 let api = require('API');
 import RegisterButton from 'RegisterButton';
 import LoginButton from 'LoginButton';
+import LogoutButton from 'LogoutButton';
 import SigninLogin from 'SigninLogin';
 
 const StoreApp = createClass({
@@ -47,14 +48,19 @@ const StoreApp = createClass({
 			                                           login: login
 		                                           })
 	                             },
+	                             handleLogout() {
+		                             this.setState({
+			                                           user: undefined
+		                                           });
+	                             },
 	                             render() {
 		                             let { products, searchText, userErrorText, gOnly, range, register, login, signin, users } = this.state;
-		                             
 		                             return (
 		                             <div className="grid-y grid-frame">
 			                             <div className="medium-auto cell">
 				                             <RegisterButton onClick={this.handleToggleSignin}/>
 				                             <LoginButton onClick={this.handleToggleLogin}/>
+				                             <LogoutButton onClick={() => {this.handleLogout()}}/>
 				                             <SigninLogin onSearch={this.handleSearch} onFilter={this.handleFilter}/>
 			                             </div>
 		                             </div>

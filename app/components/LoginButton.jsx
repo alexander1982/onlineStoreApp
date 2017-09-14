@@ -10,7 +10,7 @@ export let LoginButton = createClass({
 		                                        <div>
 			                                        <button className="button" onClick={() => {
 									                               dispatch(actions.toggleLogin());
-									                              
+									                            
 									                               }}
 			                                        >Login
 			                                        </button>

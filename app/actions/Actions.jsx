@@ -7,6 +7,19 @@ export let setUser = (user) => {
 	}
 };
 
+export let unsetUser = () => {
+	return {
+		type: 'UNSET_USER'
+	}
+};
+
+export let logOut = () => {
+	return (dispatch, getState) => {
+		document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+		dispatch(unsetUser());
+	}
+};
+
 export let setUserErrorText = (userErrorText) => {
 	return {
 		type: 'SET_USER_ERROR_TEXT',

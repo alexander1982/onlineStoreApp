@@ -45,6 +45,8 @@ export let userReducer = (state = [], action) => {
 			return [
 				action.user
 			];
+		case 'UNSET_USER':
+			return state = [];
 		default:
 			return state;
 	}

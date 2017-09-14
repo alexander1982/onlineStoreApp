@@ -58,6 +58,7 @@ module.exports = {
 			       }
 		       });
 	},
+	
 	//USER API
 	
 	//LOGIN
@@ -66,6 +67,13 @@ module.exports = {
 			return response.data;
 		}).catch((error) => {
 			return error.response;
+		});
+	},
+	getUserByToken(token) {
+		return axios.post("/users/cart", token).then((response) => {
+			return response.data;
+		}).catch((error) => {
+			console.log(error.response);
 		});
 	},
 	//SIGNIN

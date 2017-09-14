@@ -28,7 +28,7 @@ app.post('/users', (req, res) => {
 			user.save().then((user) => {
 				return user.generateToken();
 			}).then((token) => {
-				res.header('x-auth', token).send({username: user.username, id: user._id, email: user.email});
+				res.cookie('auth', token).send({username: user.username, id: user._id, email: user.email});
 			}).catch((err) => {
 				res.status(400).send("Please check one of the fields");
 			});
@@ -41,7 +41,7 @@ app.post('/users/login', (req, res) => {
 
 	User.findByCredentials(body.email, body.password).then((user) => {
 		return user.generateToken().then((token) => {
-			res.header('x-auth', token).send(user)
+			res.cookie('auth', token).send(user)
 		});
 	}).catch((error) => {
 		res.status(400).send('Check email or password');
@@ -54,15 +54,19 @@ app.get('/users', (req, res) => {
 	},(err) => {
 		res.status(400).send(err);
 	});
-	
 });
+
 //GET USER BY TOKEN
-app.get('/users/cart', authenticate, (req,res) => {
-	if(!req.user){
-		res.status(404).send('User not found');
-	}
-	res.status(200).send(req.user);
-});
+app.post('/users/cart', (req,res) => {
+	var body = _.pick(req.body, ['token']);
+	User.findByToken(body.token).then((user) => {
+		if(!user) {
+			return res.status(404).send('User not found');
+		} else {
+			return res.status(200).send(user);
+		}
+	});
+	});
 //UPDATE USER
 app.patch('/users/cart/:id', (req, res) => {
 	var body = _.pick(req.body, ['name', 'username', 'email']);
@@ -169,7 +173,7 @@ app.patch('/products/:id', (req, res) => {
 	})
 });	
 //UPDATE QUANTITY OF THE PRODUCT
-app.patch('/products', authenticate, (req, res) => {
+app.patch('/products', (req, res) => {
 	var productId = req.body._id;
 	var newQuantity = req.body.quantity;
 	
