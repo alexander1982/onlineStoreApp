@@ -23,14 +23,14 @@ const UserSchema = new mongoose.Schema({
 		type    : String,
 		trim    : true,
 		required: true,
-		validate:{
-			validator: (value)=>{
+		validate: {
+			validator: (value)=> {
 
 				return validator.isEmail(value);
 
 			},
 
-			message:'{VALUE} is not a valid Email'
+			message: '{VALUE} is not a valid Email'
 
 		},
 		unique  : true
@@ -52,7 +52,8 @@ const UserSchema = new mongoose.Schema({
 				required: true
 			}
 		}
-	]
+	],
+	cart : []
 });
 
 UserSchema.pre('save', function(next) {
@@ -73,8 +74,8 @@ UserSchema.pre('save', function(next) {
 UserSchema.methods.toJSON = function() {
 	var user = this;
 	var userObject = user.toObject();
-	
-	return _.pick(userObject,['_id', 'email', 'username']);
+
+	return _.pick(userObject, ['_id', 'email', 'username', 'cart']);
 };
 
 UserSchema.methods.generateToken = function() {
@@ -108,9 +109,9 @@ UserSchema.statics.findByToken = function(token) {
 
 UserSchema.statics.findByCredentials = function(email, password) {
 	var User = this;
-	
-	return User.findOne({email}).then((user) => {
-		if(!user) {
+
+	return User.findOne({ email }).then((user) => {
+		if(!user){
 			return Promise.reject();
 		}
 		return new Promise((resolve, reject) => {
@@ -124,16 +125,16 @@ UserSchema.statics.findByCredentials = function(email, password) {
 		});
 	});
 };
-UserSchema.static.findByCredentials =  function(email, password) {
+UserSchema.static.findByCredentials = function(email, password) {
 	var User = this;
-	return User.findOne({email}).then((user) => {
-		if(!user) {
+	return User.findOne({ email }).then((user) => {
+		if(!user){
 			return Promise.reject();
 		}
 
 		return new Promise((resolve, reject) => {
 			bcrypt.compare(password, user.password, (err, res) => {
-				if(res) {
+				if(res){
 					resolve(user);
 				} else {
 					reject()
@@ -142,13 +143,23 @@ UserSchema.static.findByCredentials =  function(email, password) {
 		})
 	})
 };
+
 UserSchema.methods.removeToken = function(token) {
 	var user = this;
-	
+
 	return user.update({
-											$pull: {
-												tokens: {token}
-											}
+		                   $pull: {
+			                   tokens: { token }
+		                   }
+	                   });
+};
+
+UserSchema.methods.addToCart = function(product) {
+	var user = this;
+
+	user.cart.push(product);
+	return user.save().then(() => {
+		return user;
 	});
 };
 

@@ -7,6 +7,7 @@ import RegisterButton from 'RegisterButton';
 import LoginButton from 'LoginButton';
 import LogoutButton from 'LogoutButton';
 import SigninLogin from 'SigninLogin';
+import AddProductToCartButton from 'AddProductToCartButton';
 
 const StoreApp = createClass({
 	                             getInitialState() {
@@ -54,7 +55,7 @@ const StoreApp = createClass({
 		                                           });
 	                             },
 	                             render() {
-		                             let { products, searchText, userErrorText, gOnly, range, register, login, signin, users } = this.state;
+		                             let { products, searchText, userErrorText, gOnly, range, register, login, signin, users, cart } = this.state;
 		                             return (
 		                             <div className="grid-y grid-frame">
 			                             <div className="medium-auto cell">
@@ -62,6 +63,7 @@ const StoreApp = createClass({
 				                             <LoginButton onClick={this.handleToggleLogin}/>
 				                             <LogoutButton onClick={() => {this.handleLogout()}}/>
 				                             <SigninLogin onSearch={this.handleSearch} onFilter={this.handleFilter}/>
+			                               <AddProductToCartButton/>
 			                             </div>
 		                             </div>
 		                             )

@@ -2,6 +2,7 @@ import * as redux from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {
+cartReducer,
 productsReducer,
 userReducer,
 searchProductReducer,
@@ -16,6 +17,7 @@ toggleSigninReducer
 export let configure = (initialState = {}) => {
 
 	let reducer = redux.combineReducers({
+		                                    cart         : cartReducer,
 		                                    products     : productsReducer,
 		                                    users        : userReducer,
 		                                    userErrorText: userErrorTextReducer,

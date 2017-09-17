@@ -32,6 +32,13 @@ module.exports = {
 			       }
 		       });
 	},
+	addProductToCart() {
+		return axios.post("/users/cart").then((response) => {
+			console.log(response);
+		}).catch((error) => {
+			console.log(error.response);
+		});
+	},
 	updateProduct(id, product) {
 		$.ajax({
 			       url        : `/products/${id}`,
@@ -70,7 +77,7 @@ module.exports = {
 		});
 	},
 	getUserByToken(token) {
-		return axios.post("/users/cart", token).then((response) => {
+		return axios.post("/users/user", token).then((response) => {
 			return response.data;
 		}).catch((error) => {
 			console.log(error.response);
