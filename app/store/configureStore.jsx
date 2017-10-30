@@ -11,22 +11,31 @@ rangeReducer,
 userErrorTextReducer,
 toggleRegisterReducer,
 toggleLoginReducer,
-toggleSigninReducer
+toggleSigninReducer,
+toggleProductsOrPruductReducer,
+singleProductReducer,
+toggleCartReducer,
+toggleSingleProductCheckOutReducer,
+allProductsInCartReducer
 } from 'Reducers';
 
 export let configure = (initialState = {}) => {
 
 	let reducer = redux.combineReducers({
-		                                    cart         : cartReducer,
-		                                    products     : productsReducer,
-		                                    users        : userReducer,
-		                                    userErrorText: userErrorTextReducer,
-		                                    searchText   : searchProductReducer,
-		                                    gOnly        : gOnlyReducer,
-		                                    range        : rangeReducer,
-		                                    register     : toggleRegisterReducer,
-		                                    login        : toggleLoginReducer,
-		                                    signin       : toggleSigninReducer
+		                                    productInCart              : toggleCartReducer,
+		                                    products                   : productsReducer,
+		                                    users                      : userReducer,
+		                                    userErrorText              : userErrorTextReducer,
+		                                    searchText                 : searchProductReducer,
+		                                    gOnly                      : gOnlyReducer,
+		                                    range                      : rangeReducer,
+		                                    register                   : toggleRegisterReducer,
+		                                    login                      : toggleLoginReducer,
+		                                    signin                     : toggleSigninReducer,
+		                                    productsOrProduct          : toggleProductsOrPruductReducer,
+		                                    singleProduct              : singleProductReducer,
+		                                    toggleSingleProductCheckOut: toggleSingleProductCheckOutReducer,
+		                                    allProductsInCart          : allProductsInCartReducer
 	                                    });
 
 	let store = redux.createStore(reducer, initialState, redux.compose(

@@ -6,31 +6,16 @@ let StoreApp = require('StoreApp');
 let actions = require('Actions');
 let store = require('ConfigureStore').configure();
 let api = require('API');
+let authStuff = require('AuthStuff');
 
 window.jQuery = $;
 let slick = require('slick-carousel');
 
 store.dispatch(actions.startAddProducts());
 
-function getCookie(cname) {
-	var name = cname + "=";
-	var decodedCookie = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0) == ' ') {
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length, c.length);
-		}
-	}
-	return "";
-}
-
-if(getCookie('auth').length > 0) {
+if(authStuff.getCookie('auth').length > 0) {
 	let token = {
-		token: getCookie('auth')
+		token: authStuff.getCookie('auth')
 	};
 	api.getUserByToken(token).then((data) => {
 		store.dispatch(actions.setUser(data));

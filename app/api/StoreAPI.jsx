@@ -6,17 +6,19 @@ module.exports = {
 	getProducts() {
 		return axios.get("/products");
 	},
+	getProductsFromCart(medal) {
+		return axios.post("/users/cart/products", medal).then((response) => {
+			return response.data.cart;
+		}).catch((error) => {
+			console.log(error);
+		});
+	},
 	getProduct(id) {
-		$.ajax({
-			       url    : `/products/${id}`,
-			       type   : "GET",
-			       success: (data) => {
-				       console.log(data);
-			       },
-			       error  : (error) => {
-				       console.log(error.responseText);
-			       }
-		       });
+		return axios.get(`/products/${id}`).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error);
+		});
 	},
 	addProduct(product) {
 		$.ajax({
@@ -32,11 +34,39 @@ module.exports = {
 			       }
 		       });
 	},
-	addProductToCart() {
-		return axios.post("/users/cart").then((response) => {
-			console.log(response);
+	addProductToCart(productData) {
+		return axios.post("/users/cart", productData).then((response) => {
+			return response.data;
 		}).catch((error) => {
 			console.log(error.response);
+		});
+	},
+	getProductFromCart(product) {
+		return axios.post("/users/cart/product", product).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error.response);
+		});
+	},
+	removeProductFromCart(product) {
+		return axios.post("/users/cart/product/remove", product).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error);
+		});
+	},
+	incrementProductInStore(product) {
+		return axios.post("/products/inc", product).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error);
+		});
+	},
+	decrementProductInStore(product) {
+		return axios.post("/products/dec", product).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error);
 		});
 	},
 	updateProduct(id, product) {
@@ -65,9 +95,15 @@ module.exports = {
 			       }
 		       });
 	},
-	
+
 	//USER API
-	
+
+	//BILLING 
+	addBillingData(billingData) {
+		return axios.post('/users/billing/add', billingData).then((response) => {
+			return response;
+		});
+	},
 	//LOGIN
 	getUser(user) {
 		return axios.post("/users/login", user).then((response) => {

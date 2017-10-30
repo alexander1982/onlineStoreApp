@@ -1,4 +1,5 @@
-export let getCookie = (cname) => {
+module.exports = {
+	getCookie(cname){
 	var name = cname + "=";
 	var decodedCookie = decodeURIComponent(document.cookie);
 	var ca = decodedCookie.split(';');
@@ -12,4 +13,5 @@ export let getCookie = (cname) => {
 		}
 	}
 	return "";
+}
 };

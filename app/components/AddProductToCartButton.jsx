@@ -3,6 +3,7 @@ let { connect } = require('react-redux');
 let createClass = require('create-react-class');
 let actions = require('Actions');
 let api = require('API');
+let authStuff = require('AuthStuff');
 
 export let AddProductToCartButton = createClass({
 	                                                render() {

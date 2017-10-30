@@ -4,22 +4,25 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 require('../config/config.js');
+const Product = require('./productModel.js').Product;
+let objectId = require('mongodb').ObjectID;
+let moment = require('moment');
 
 const UserSchema = new mongoose.Schema({
-	name    : {
+	name     : {
 		type     : String,
 		trim     : true,
 		required : true,
 		minlength: 1
 	},
-	username: {
+	username : {
 		type     : String,
 		trim     : true,
 		required : true,
 		unique   : true,
 		minlength: 2
 	},
-	email   : {
+	email    : {
 		type    : String,
 		trim    : true,
 		required: true,
@@ -35,13 +38,14 @@ const UserSchema = new mongoose.Schema({
 		},
 		unique  : true
 	},
-	password: {
+	createdAt: { type: Date },
+	password : {
 		type     : String,
 		trim     : true,
 		required : true,
 		minlength: 7
 	},
-	tokens  : [
+	tokens   : [
 		{
 			access: {
 				type    : String,
@@ -53,7 +57,59 @@ const UserSchema = new mongoose.Schema({
 			}
 		}
 	],
-	cart : []
+	billingData: [
+		{
+			cardNumber: {
+				type: String,
+				required: true,
+				unique: true,
+				trim: true
+			},
+			expDate: {
+				type: String,
+				required: true,
+				unique: true
+			},
+			ccv: {
+				type: String,
+				required: true,
+				unique: true
+			},
+			address: {
+				type     : String,
+				trim     : true,
+				required : true
+			},
+			country: {
+				type     : String,
+				trim     : true,
+				required : true
+			},
+			index: {
+				type: String,
+				required: true,
+				unique: true
+			}
+		}
+	],
+	cart     : [
+		{
+			name       : {
+				type    : String,
+				required: true,
+				unique  : true,
+				trim    : true
+			},
+			describtion: {
+				type    : String,
+				required: true
+			},
+			quantity   : {
+				type    : Number,
+				required: true
+			}
+		}
+	]
 });
 
 UserSchema.pre('save', function(next) {
@@ -71,11 +127,16 @@ UserSchema.pre('save', function(next) {
 	}
 });
 
+UserSchema.pre('save', function(next) {
+	this.createdAt = moment().format("MM-DD-YYYY");
+	next();
+});
+
 UserSchema.methods.toJSON = function() {
 	var user = this;
 	var userObject = user.toObject();
 
-	return _.pick(userObject, ['_id', 'email', 'username', 'cart']);
+	return _.pick(userObject, ['_id', 'email', 'username', 'cart', 'billingData']);
 };
 
 UserSchema.methods.generateToken = function() {
@@ -125,24 +186,6 @@ UserSchema.statics.findByCredentials = function(email, password) {
 		});
 	});
 };
-UserSchema.static.findByCredentials = function(email, password) {
-	var User = this;
-	return User.findOne({ email }).then((user) => {
-		if(!user){
-			return Promise.reject();
-		}
-
-		return new Promise((resolve, reject) => {
-			bcrypt.compare(password, user.password, (err, res) => {
-				if(res){
-					resolve(user);
-				} else {
-					reject()
-				}
-			})
-		})
-	})
-};
 
 UserSchema.methods.removeToken = function(token) {
 	var user = this;
@@ -154,6 +197,23 @@ UserSchema.methods.removeToken = function(token) {
 	                   });
 };
 
+//BillingData methods
+UserSchema.methods.addToBillingData = function(data) {
+	var user = this;
+
+	user.billingData.push(data);
+	return user.save().then(() => {
+		return user;
+	});
+};
+
+UserSchema.methods.removeFromBillingData= function(data) {
+	var user = this;
+
+	return user.update({ $pull: { "billingData": { "cardNumber": data.cardNumber } } });
+};
+
+//Cart methods
 UserSchema.methods.addToCart = function(product) {
 	var user = this;
 
@@ -161,6 +221,18 @@ UserSchema.methods.addToCart = function(product) {
 	return user.save().then(() => {
 		return user;
 	});
+};
+
+UserSchema.methods.removeProductFromCart = function(product) {
+	var user = this;
+
+	return user.update({ $pull: { "cart": { "name": product.name } } });
+};
+
+UserSchema.methods.getProductFromCart = function(product, token) {
+	var userId = User.findByToken(token);
+	userId = userId._conditions._id;
+	return User.find({ _id: userId }, { "cart": { $elemMatch: { "name": product.name } } });
 };
 
 var User = mongoose.model('User', UserSchema);

@@ -3,16 +3,17 @@ let { connect } = require('react-redux');
 let createClass = require('create-react-class');
 
 let api = require('API');
-import Product from "Product";
+import ProductInCart from "ProductInCart";
 let actions = ('Actions');
+let store = require('ConfigureStore').configure();
 
-export let ProductsList = createClass({
+export let Cart = createClass({
 	                                      render() {
-		                                      let { products, searchText, gOnly, range, productsOrProduct, dispatch} = this.props;
+		                                      let { products, searchText, gOnly, range, users, productsOrProduct, dispatch} = this.props;
 		                                      let renderProducts = () => {
-			                                      return api.filterProducts(products, searchText, gOnly, range).map((product) => {
+			                                      return users.cart.map((product) => {
 				                                      return (
-				                                      <Product key={product._id} {...product}/>
+				                                      <ProductInCart key={product._id} {...product}/>
 				                                      )
 			                                      });
 		                                      };
@@ -28,4 +29,4 @@ export default connect(
 (state) => {
 	return state;
 }
-)(ProductsList);
+)(Cart);

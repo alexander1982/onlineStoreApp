@@ -37,6 +37,7 @@ module.exports = {
 	],
 	resolve  : {
 		alias     : {
+			AuthStuff        : 'app/authStuff/AuthStuff.jsx',
 			ApplicationStyles: 'app/styles/app.scss',
 			Actions          : 'app/actions/Actions.jsx',
 			API              : 'app/api/StoreAPI.jsx',

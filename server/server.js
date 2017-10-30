@@ -5,6 +5,8 @@ let path = require('path');
 let bodyParser = require('body-parser');
 let _ = require('lodash');
 let objectId = require('mongodb').ObjectID;
+let SendGrid = require('sendgrid-nodejs').SendGrid;
+let sendGrid = new SendGrid('Alex1982', 'Alexander314086695');
 
 const User = require('./models/userModel.js').User;
 const Product = require('./models/productModel.js').Product;
@@ -29,6 +31,17 @@ app.post('/users', (req, res) => {
 				return user.generateToken();
 			}).then((token) => {
 				res.cookie('auth', token).send({ username: user.username, id: user._id, email: user.email });
+				sendGrid.send({
+					              to     : `${user.email}`,
+					              from   : 'StoreApp@someDomain.com',
+					              subject: `Hello ${user.username}, we are welcome you`,
+					              text   : `Dear ${user.name}, thank you for joining us Enter this link to verify your account https://www.youtube.com/watch?v=Q0CbN8sfihY, enjoy.`
+				              }, function(error, json) {
+					if(error){
+						console.log(error);
+					}
+					console.log(json);
+				});
 			}).catch((err) => {
 				res.status(400).send("Please check one of the fields");
 			});
@@ -55,7 +68,6 @@ app.get('/users', (req, res) => {
 		res.status(400).send(err);
 	});
 });
-
 //GET USER BY TOKEN
 app.post('/users/user', (req, res) => {
 	var body = _.pick(req.body, ['token']);
@@ -112,7 +124,62 @@ app.delete('/users/token', authenticate, (req, res) => {
 		res.status(400).send();
 	});
 });
-//===================================================
+
+app.post('/users/billing/add', (req, res) => {
+	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'name', 'lastName', 'username']);
+	let billingData = {
+		cardNumber: body.cardNumber,
+		expDate: body.expDate,
+		ccv: body.ccv,
+		address: body.address,
+		country: body.country,
+		index: body.index
+	};
+	User.findOne({username: body.username, email: body.email}).then((foundUser) => {
+		if(foundUser.billingData.length === 0){
+			foundUser.addToBillingData(billingData).then((user) => {
+				return res.status(200).send(user);
+			});
+			
+		} else {
+			let billing = foundUser.billingData;
+			for(let x = 0; x < billing.length; x++){
+				if(billing[x].cardNumber === billingData.cardNumber){
+					return res.status(400).send('The credit card number is already exist');
+				} else if(billing[x].address === billingData.address){
+					return res.status(400).send('The address is already exist');
+				}
+			}
+		}
+	});
+});
+
+app.post('/users/billing/remove', (req, res) => {
+	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'username']);
+	let billingData = {
+		cardNumber: body.cardNumber,
+		expDate: body.expDate,
+		ccv: body.ccv,
+		address: body.address,
+		country: body.country,
+		index: body.index
+	};
+
+	User.findOne({username: body.username, email: body.email}).then((foundUser) => {
+		let billing = foundUser.billingData;
+		for(let x = 0; x < billing.length; x++) {
+			if(billing[x].cardNumber !== billingData.cardNumber) {
+				return res.status(400).send('The credit card number is not exist');
+			} else {
+				user.removeFromBillingData(billingData);
+				res.status(200).send(user);
+			}
+		}
+	});
+});
+
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = //
+
 //ADD A NEW PRODUCT TO STORE
 app.post('/products', (req, res) => {
 	var product = new Product({
@@ -132,15 +199,85 @@ app.post('/products', (req, res) => {
 });
 //ADD A NEW PRODUCT TO CART
 app.post('/users/cart', (req, res) => {
-	var product = 'Doom3';
-	var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OWJkNDRmZjE1MTQyNjA3ZDgxZTFmM2EiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTA1NTc2MTkyfQ.f6kQQ4jan8vmf68n5dWGiJPy6eAwKMJNMr-rGPotlMk';
+	var body = _.pick(req.body, ['describtion', '_id', 'name', 'quantity', 'token']);
+	var product = {
+		_id        : objectId(body._id),
+		describtion: body.describtion,
+		name       : body.name,
+		quantity   : body.quantity
+	};
+	var token = body.token;
 
 	User.findByToken(token).then((user) => {
 		if(!user){
 			return res.status(404).send('User not found');
 		} else {
-			user.addToCart(product);
-			return res.status(200).send(user);
+			user.getProductFromCart(product, token).then((data) => {
+				if(data[0].cart.length === 0) {
+					user.addToCart(product);
+					res.status(200).send(user);
+				} else {
+					product.quantity = parseInt(product.quantity) + parseInt(data[0].cart[0].quantity);
+					user.removeProductFromCart(product).then((deletedProduct) => {
+						user.addToCart(product);
+						res.status(200).send(user);
+					});
+				}
+			});
+		}
+	});
+});
+//GET PRODUCT FROM CART
+app.post('/users/cart/product', (req, res) => {
+	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity', 'token']);
+	var product = {
+		_id        : objectId(body._id),
+		description: body.describtion,
+		name       : body.name,
+		quantity   : body.quantity
+	};
+	var token = body.token;
+
+	User.findByToken(token).then((user) => {
+		if(!user){
+			return res.status(404).send('User not found');
+		} else {
+			user.getProductFromCart(product, token).then((foundProduct) => {
+				return res.status(200).send(foundProduct);
+			});
+		}
+	});
+});
+//GET LIST OF PRODUCT FROM CART
+app.post('/users/cart/products', (req, res) => {
+	var body = _.pick(req.body, ['token']);
+	
+	User.findByToken(body.token).then((response) => {
+		if(!response){
+			return res.status(404).send('User not found');
+		} else {
+			return res.status(200).send(response);
+		}
+	});
+});
+//DELETE PRODUCT FROM CART
+app.post('/users/cart/product/remove', (req, res) => {
+	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity', 'token']);
+	var product = {
+		_id        : objectId(body._id),
+		description: body.describtion,
+		name       : body.name,
+		quantity   : body.quantity
+	};
+	var token = body.token;
+
+	User.findByToken(token).then((user) => {
+		if(!user){
+			return res.status(404).send('User not found');
+		} else {
+			user.removeProductFromCart(product).then((product) => {
+				return res.status(200).send(product);
+			});
 		}
 	});
 });
@@ -158,7 +295,6 @@ app.get('/products/:id', (req, res) => {
 });
 //GET LIST OF PRODUCTS
 app.get('/products', (req, res) => {
-
 	Product.find({}).then((products) => {
 		if(!products){
 			return res.status(404).send();
@@ -204,6 +340,34 @@ app.patch('/products', (req, res) => {
 		res.status(400).send(err);
 	})
 });
+//INCREMENT QUANTITY IN STORE
+app.post('/products/inc', (req, res) => {
+	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity']);
+	var product = {
+		_id        : objectId(body._id),
+		description: body.describtion,
+		name       : body.name,
+		quantity   : body.quantity
+	};
+
+	Product.update({ _id: product._id }, { $inc: { "quantity": 10 } }).then((result) => {
+		return res.status(200).send(result);
+	});
+});
+//DECREMENT QUANTITY IN STORE
+app.post('/products/dec', (req, res) => {
+	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity']);
+	var product = {
+		_id        : objectId(body._id),
+		description: body.describtion,
+		name       : body.name,
+		quantity   : body.quantity
+	};
+
+	Product.update({ _id: product._id }, { $inc: { "quantity": -product.quantity } }).then((result) => {
+		return res.status(200).send(result);
+	});
+});
 //DELETE PRODUCT
 app.delete('/products/:id', (req, res) => {
 
@@ -220,6 +384,8 @@ app.delete('/products/:id', (req, res) => {
 		res.status(400).send(err);
 	})
 });
+
+// = = = = = = = = = = = = = = = = = = = = = = = = = = //
 
 app.listen(port, () => {
 	console.log(`Server is running on port`, port)

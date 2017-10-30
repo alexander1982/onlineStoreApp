@@ -17,7 +17,7 @@ export let Login = createClass({
 		                               <div>
 			                               <fieldset>
 				                               <legend>Login</legend>
-				                               <input type="text" ref="email" placeholder="Email" value="Asdfsde442@gmail.com"/>
+				                               <input type="text" ref="email" placeholder="Email" value="gorelikov.alex@gmail.com"/>
 				                               <input type="text" ref="password" placeholder="Password" value="Asdfsd561244"/>
 				                               <button type="submit" className="button button-primary" onClick={() => {
 				                                   dispatch(actions.getUser(this.setUser()));

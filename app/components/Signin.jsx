@@ -20,9 +20,9 @@ export let Signin = createClass({
 		                                <div>
 			                                <fieldset>
 				                                <legend>Signin</legend>
-				                                <input type="text" ref="name" placeholder="Name" value="Af1244"/>
+				                                <input type="text" ref="name" placeholder="Name" value="Alex"/>
 				                                <input type="text" ref="username" placeholder="Username" value="Asdl244"/>
-				                                <input type="text" ref="email" placeholder="Email" value="Asdfsde442@gmail.com"/>
+				                                <input type="text" ref="email" placeholder="Email" value="gorelikov.alex@gmail.com"/>
 				                                <input type="text" ref="password" placeholder="password" value="Asdfsd561244"/>
 				                                <button type="submit" className="button button-primary" onClick={() =>
 				                                  dispatch(actions.addNewUser(this.setNewUser()))}

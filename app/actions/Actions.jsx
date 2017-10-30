@@ -1,4 +1,5 @@
 let api = require('API');
+import authStuff from 'AuthStuff';
 
 export let setUser = (user) => {
 	return {
@@ -43,11 +44,11 @@ export let getExistUser = (user) => {
 export let addNewUser = (user) => {
 	return (dispatch, getState) => {
 		api.addUser(user).then((response) => {
-			if(response.data){
-				dispatch(setUserErrorText(response.data));
-			} else {
+			if(!response.data){
 				dispatch(setUser(response));
 				dispatch(toggleSignin());
+			} else {
+				dispatch(setUserErrorText(response.data));
 			}
 		});
 	}
@@ -77,6 +78,12 @@ export let addProducts = (products) => {
 	return {
 		type: 'ADD_PRODUCTS',
 		products
+	}
+};
+
+export let unsetProducts = () => {
+	return {
+		type: 'UNSET_PRODUCTS'
 	}
 };
 
@@ -118,5 +125,51 @@ export let toggleLogin = () => {
 export let toggleSignin = () => {
 	return {
 		type: 'TOGGLE_SIGNIN'
+	}
+};
+
+export let toggleProductsOrPruduct = () => {
+	return {
+		type: 'TOGGLE_PRODUCT'
+	}
+};
+
+export let setSingleProduct = (singleProduct) => {
+	return {
+		type: 'SET_SINGLE_PRODUCT',
+		singleProduct
+	}
+};
+
+export let usetSingleProduct = () => {
+	return {
+		type: 'UNSET_SINGLE_PRODUCT'
+	}
+};
+
+export let toggleCart = () => {
+	return {
+		type: 'TOGGLE_CART'
+	}
+};
+
+export let toggleSingleProductCheckOut = () => {
+	return {
+		type: 'TOGGLE_SINGLE_PRODUCT_CHECKOUT'
+	}
+};
+
+export let startAddProductsToCart = (userInfo) => {
+	return (dispatch, getState) => {
+		api.getProductsFromCart(userInfo).then((response) => {
+				dispatch(setProductsInCart(response));
+		});
+	};
+};
+
+export let setProductsInCart = (products) => {
+	return {
+		type: 'SET_ALL_PRODUCTS_IN_CART',
+		products
 	}
 };
