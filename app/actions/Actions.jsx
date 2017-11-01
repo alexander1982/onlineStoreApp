@@ -173,4 +173,3 @@ export let setProductsInCart = (products) => {
 		products
 	}
 };
-console.log('Hands up!');
