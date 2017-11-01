@@ -173,7 +173,3 @@ export let setProductsInCart = (products) => {
 		products
 	}
 };
-console.log('config/production.env');
-console.log('config/production.env');
-console.log('config/production.env');
-console.log('config/production.env');

@@ -7,11 +7,7 @@ let actions = require('Actions');
 let store = require('ConfigureStore').configure();
 let api = require('API');
 let authStuff = require('AuthStuff');
-let path  =require('path');
-console.log('config/production.env');
-console.log('config/production.env');
-console.log('config/production.env');
-console.log('config/production.env');
+
 window.jQuery = $;
 let slick = require('slick-carousel');
 store.dispatch(actions.startAddProducts());
