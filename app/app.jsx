@@ -7,10 +7,10 @@ let actions = require('Actions');
 let store = require('ConfigureStore').configure();
 let api = require('API');
 let authStuff = require('AuthStuff');
+let path  =require('path');
 
 window.jQuery = $;
 let slick = require('slick-carousel');
-
 store.dispatch(actions.startAddProducts());
 
 if(authStuff.getCookie('auth').length > 0) {

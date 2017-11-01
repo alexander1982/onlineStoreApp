@@ -6,8 +6,7 @@ let bodyParser = require('body-parser');
 let _ = require('lodash');
 let objectId = require('mongodb').ObjectID;
 let SendGrid = require('sendgrid-nodejs').SendGrid;
-let sendGrid = new SendGrid('Alex1982', 'Alexander314086695');
-
+let sendGrid = new SendGrid(process.env.SECRET_NAME, process.env.API_KEY);
 const User = require('./models/userModel.js').User;
 const Product = require('./models/productModel.js').Product;
 const authenticate = require('./middlewears/authenticate.js').authenticate;
@@ -33,7 +32,7 @@ app.post('/users', (req, res) => {
 				res.cookie('auth', token).send({ username: user.username, id: user._id, email: user.email });
 				sendGrid.send({
 					              to     : `${user.email}`,
-					              from   : 'StoreApp@someDomain.com',
+					              from   : process.env.EMAIL,
 					              subject: `Hello ${user.username}, we are welcome you`,
 					              text   : `Dear ${user.name}, thank you for joining us Enter this link to verify your account https://www.youtube.com/watch?v=Q0CbN8sfihY, enjoy.`
 				              }, function(error, json) {

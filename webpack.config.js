@@ -1,5 +1,14 @@
 let webpack = require('webpack');
 let path = require('path');
+let envFile = require('node-env-file');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+
+try {
+	envFile(path.join(__dirname, 'public/config/' + process.env.NODE_ENV + '.env'));
+} catch(e) {
+
+}
 
 module.exports = {
 	entry    : [
@@ -22,7 +31,10 @@ module.exports = {
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('production')
+				NODE_ENV : JSON.stringify(process.env.NODE_ENV),
+				API_KEY : JSON.stringify(process.env.API_KEY),
+				SECRET_NAME : JSON.stringify(process.env.SECRET_NAME),
+				EMAIL : JSON.stringify(process.env.EMAIL)
 			}
 		}),
 		new webpack.LoaderOptionsPlugin({
