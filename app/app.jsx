@@ -8,7 +8,7 @@ let store = require('ConfigureStore').configure();
 let api = require('API');
 let authStuff = require('AuthStuff');
 let path  =require('path');
-
+console.log('Hands up!');
 window.jQuery = $;
 let slick = require('slick-carousel');
 store.dispatch(actions.startAddProducts());
