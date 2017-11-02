@@ -207,10 +207,10 @@ UserSchema.methods.addToBillingData = function(data) {
 	});
 };
 
-UserSchema.methods.removeFromBillingData= function(data) {
+UserSchema.methods.removeFromBillingData= function(cardNumber) {
 	var user = this;
 
-	return user.update({ $pull: { "billingData": { "cardNumber": data.cardNumber } } });
+	return user.update({ $pull: { "billingData": { "cardNumber": cardNumber } } });
 };
 
 //Cart methods

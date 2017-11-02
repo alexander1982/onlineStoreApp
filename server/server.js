@@ -123,7 +123,7 @@ app.delete('/users/token', authenticate, (req, res) => {
 		res.status(400).send();
 	});
 });
-
+//ADD BILLING DATA
 app.post('/users/billing/add', (req, res) => {
 	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'name', 'lastName', 'username']);
 	let billingData = {
@@ -142,17 +142,20 @@ app.post('/users/billing/add', (req, res) => {
 			
 		} else {
 			let billing = foundUser.billingData;
+			let errorData = [];
 			for(let x = 0; x < billing.length; x++){
 				if(billing[x].cardNumber === billingData.cardNumber){
-					return res.status(400).send('The credit card number is already exist');
-				} else if(billing[x].address === billingData.address){
-					return res.status(400).send('The address is already exist');
+					errorData[0] = 'The credit card number is already exist';
+				} 
+				if(billing[x].address === billingData.address){
+					errorData[1] = 'The address is already exist';
 				}
+				return res.status(400).send(errorData);
 			}
 		}
 	});
 });
-
+//REMOVE BILLING DATA
 app.post('/users/billing/remove', (req, res) => {
 	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'username']);
 	let billingData = {
@@ -170,8 +173,10 @@ app.post('/users/billing/remove', (req, res) => {
 			if(billing[x].cardNumber !== billingData.cardNumber) {
 				return res.status(400).send('The credit card number is not exist');
 			} else {
-				user.removeFromBillingData(billingData);
-				res.status(200).send(user);
+				console.log(billingData.cardNumber);
+				foundUser.removeFromBillingData(billingData.cardNumber).then((response) => {
+					res.status(200).send(response)
+				});
 			}
 		}
 	});

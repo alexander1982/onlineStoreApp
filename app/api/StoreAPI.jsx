@@ -102,8 +102,19 @@ module.exports = {
 	addBillingData(billingData) {
 		return axios.post('/users/billing/add', billingData).then((response) => {
 			return response;
+		}).catch((error) => {
+			console.log(error.response.data);
 		});
 	},
+
+	removeBillingData(billingData) {
+		return axios.post('/users/billing/remove', billingData).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error.response.data);
+		});
+	},
+	
 	//LOGIN
 	getUser(user) {
 		return axios.post("/users/login", user).then((response) => {

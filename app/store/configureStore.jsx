@@ -22,20 +22,20 @@ allProductsInCartReducer
 export let configure = (initialState = {}) => {
 
 	let reducer = redux.combineReducers({
+		                                    allProductsInCart          : allProductsInCartReducer,
+		                                    gOnly                      : gOnlyReducer,
+		                                    login                      : toggleLoginReducer,
 		                                    productInCart              : toggleCartReducer,
 		                                    products                   : productsReducer,
-		                                    users                      : userReducer,
-		                                    userErrorText              : userErrorTextReducer,
-		                                    searchText                 : searchProductReducer,
-		                                    gOnly                      : gOnlyReducer,
+		                                    productsOrProduct          : toggleProductsOrPruductReducer,
 		                                    range                      : rangeReducer,
 		                                    register                   : toggleRegisterReducer,
-		                                    login                      : toggleLoginReducer,
+		                                    searchText                 : searchProductReducer,
 		                                    signin                     : toggleSigninReducer,
-		                                    productsOrProduct          : toggleProductsOrPruductReducer,
 		                                    singleProduct              : singleProductReducer,
 		                                    toggleSingleProductCheckOut: toggleSingleProductCheckOutReducer,
-		                                    allProductsInCart          : allProductsInCartReducer
+		                                    users                      : userReducer,
+		                                    userErrorText              : userErrorTextReducer
 	                                    });
 
 	let store = redux.createStore(reducer, initialState, redux.compose(

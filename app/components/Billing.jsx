@@ -3,7 +3,8 @@ let { connect } = require('react-redux');
 let createClass = require('create-react-class');
 let api = require('API');
 import ProductInCart from "ProductInCart";
-let actions = ('Actions');
+import authStuff from 'AuthStuff';
+let actions = require('Actions');
 let store = require('ConfigureStore').configure();
 
 export let Billing = createClass({
@@ -23,7 +24,7 @@ export let Billing = createClass({
 		                                 return billingData;
 	                                 },
 	                                 render() {
-		                                 let { totalPrice, users } = this.props;
+		                                 let { totalPrice, users, dispatch } = this.props;
 		                                 return (
 		                                 <div>
 			                                 <fieldset>
@@ -42,16 +43,29 @@ export let Billing = createClass({
 				                                 <input type="text" ref="address" name="address" placeholder="Enter your adress"
 				                                        value="singon 23/30" required/>
 				                                 <input type="text" ref="country" name="country"
-				                                        placeholder="Enter your country" value="Singapur" required/>
+				                                        placeholder="Enter your country" value="Singalor" required/>
 				                                 <input type="text" ref="index" name="index" placeholder="Enter your index"
 				                                        value="02400" required/>
 				                                 <button className="button" onClick={() => {
 				                                    let data = this.collectData(users.username, users.email);
-				                                    console.log('From billing', data);
 				                                    api.addBillingData(data).then((response) => {
-				                                      console.log('From billing/addBillingData',response);
+			                                        dispatch(actions.setUser(response.data));
 				                                    });
 				                                  }}>Charge
+				                                 </button>
+				                                 <button className="button" onClick={() => {
+				                                    let data = this.collectData(users.username, users.email);
+				                                    api.removeBillingData(data).then((response) => {
+				                                      if(response.data.ok === 1) {
+				                                        let medal = {
+				                                          token: authStuff.getCookie('auth')
+				                                        };
+				                                        api.getUserByToken(medal).then((foundUser) => {
+				                                          dispatch(actions.setUser(foundUser));
+				                                        });
+				                                      }
+				                                    });
+				                                  }}>Remove billing data
 				                                 </button>
 			                                 </fieldset>
 		                                 </div>

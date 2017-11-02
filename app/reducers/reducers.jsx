@@ -120,7 +120,7 @@ export let toggleCartReducer = (state = false, action) => {
 };
 
 export let toggleSingleProductCheckOutReducer = (state = false, action) => {
-	switch(action.type) {
+	switch(action.type){
 		case 'TOGGLE_SINGLE_PRODUCT_CHECKOUT':
 			return !state;
 		default:
@@ -129,13 +129,14 @@ export let toggleSingleProductCheckOutReducer = (state = false, action) => {
 };
 
 export let allProductsInCartReducer = (state = [], action) => {
-	switch(action.type) {
+	switch(action.type){
 		case 'SET_ALL_PRODUCTS_IN_CART':
 			return [
 				...state,
-			  ...action.products
+				...action.products
 			];
 		default:
 			return state;
 	}
 };
+
