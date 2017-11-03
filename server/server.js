@@ -1,16 +1,27 @@
 require('./config/config.js');
+let path = require('path');
+
 let mongoose = require('./db/mongoose.js').mongoose;
 let express = require('express');
-let path = require('path');
 let bodyParser = require('body-parser');
 let _ = require('lodash');
 let objectId = require('mongodb').ObjectID;
-let SendGrid = require('sendgrid-nodejs').SendGrid;
-let sendGrid = new SendGrid(process.env.SECRET_NAME, process.env.API_KEY);
+
 const User = require('./models/userModel.js').User;
 const Product = require('./models/productModel.js').Product;
 const authenticate = require('./middlewears/authenticate.js').authenticate;
 const publicPath = path.join(__dirname, '../public');
+
+let envFile = require('node-env-file');
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+
+try {
+	envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
+} catch(e) {
+
+}
+let SendGrid = require('sendgrid-nodejs').SendGrid;
+let sendGrid = new SendGrid(process.env.SECRET_NAME, process.env.API_KEY);
 
 const app = express();
 const port = process.env.PORT || 3000;
