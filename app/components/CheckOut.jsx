@@ -11,8 +11,10 @@ let store = require('ConfigureStore').configure();
 
 export let CheckOut = createClass({
 	                                  render() {
-		                                  let {users} = this.props;
+		                                  let { users } = this.props;
 		                                  let Cart = users.cart;
+		                                  let totalPrice;
+		                                  let total = [];
 		                                  let renderProductsFromCart = () => {
 			                                  return Cart.map((product) => {
 				                                  return (
@@ -21,16 +23,19 @@ export let CheckOut = createClass({
 			                                  });
 		                                  };
 		                                  let renderTotalPrice = () => {
-			                                  for(let x = 0; x < Cart.length; x++) {
-				                                  return Cart[x].quantity += Cart[x].quantity;
+			                                  for(let x = 0; x < Cart.length; x++){
+				                                  total[x] = Cart[x].quantity * Cart[x].price;
 			                                  }
+			                                  let allPrice = total.reduce((a, b) => a + b, 0);
+			                                  return allPrice;
 		                                  };
+		                                  totalPrice = renderTotalPrice();
 		                                  return (
 		                                  <div>
 			                                  {renderProductsFromCart()}
 			                                  --------------------------
-			                                  <h3 ref="totalPrice">Total : {renderTotalPrice()}</h3>
-			                                  <Billing totalPrice={renderTotalPrice()/2}/>
+			                                  <h3 ref="totalPrice">Total : {totalPrice}</h3>
+			                                  <Billing totalPrice={totalPrice}/>
 		                                  </div>
 		                                  )
 	                                  }

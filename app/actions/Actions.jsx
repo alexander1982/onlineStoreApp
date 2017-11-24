@@ -74,9 +74,16 @@ export let setSearchText = (searchText) => {
 	}
 };
 
+export let setProduct = (product) => {
+	return {
+		type: 'SET_PRODUCT',
+		product
+	}
+};
+
 export let addProducts = (products) => {
 	return {
-		type: 'ADD_PRODUCTS',
+		type: 'SET_PRODUCTS',
 		products
 	}
 };
@@ -174,3 +181,14 @@ export let setProductsInCart = (products) => {
 	}
 };
 
+export let toggleAdmin = () => {
+	return {
+		type: 'TOGGLE_ADMIN'
+	}
+};
+
+export let toggleAddProduct =() => {
+	return {
+		type:'TOGGLE_ADD_PRODUCT'
+	}
+};

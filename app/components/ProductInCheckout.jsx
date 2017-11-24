@@ -4,12 +4,14 @@ let createClass = require('create-react-class');
 
 export let ProductInCheckout = createClass({
 	                                       render() {
-		                                       let { _id, name, describtion, quantity, dispatch } = this.props;
+		                                       let { _id, name, describtion, quantity, price, picture, dispatch } = this.props;
 		                                       return (
 		                                       <div>
 			                                       <span>{name}</span>
 			                                       <span>{describtion} </span>
 			                                       <span>{quantity}</span>
+			                                       <span>---></span>
+			                                       <span>{price}</span>
 		                                       </div>
 		                                       )
 	                                       }

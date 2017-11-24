@@ -9,20 +9,20 @@ let objectId = require('mongodb').ObjectID;
 let moment = require('moment');
 
 const UserSchema = new mongoose.Schema({
-	name     : {
+	name       : {
 		type     : String,
 		trim     : true,
 		required : true,
 		minlength: 1
 	},
-	username : {
+	username   : {
 		type     : String,
 		trim     : true,
 		required : true,
 		unique   : true,
 		minlength: 2
 	},
-	email    : {
+	email      : {
 		type    : String,
 		trim    : true,
 		required: true,
@@ -38,14 +38,14 @@ const UserSchema = new mongoose.Schema({
 		},
 		unique  : true
 	},
-	createdAt: { type: Date },
-	password : {
+	createdAt  : { type: Date },
+	password   : {
 		type     : String,
 		trim     : true,
 		required : true,
 		minlength: 7
 	},
-	tokens   : [
+	tokens     : [
 		{
 			access: {
 				type    : String,
@@ -60,39 +60,39 @@ const UserSchema = new mongoose.Schema({
 	billingData: [
 		{
 			cardNumber: {
-				type: String,
+				type    : String,
 				required: true,
-				unique: true,
-				trim: true
+				unique  : true,
+				trim    : true
 			},
-			expDate: {
-				type: String,
+			expDate   : {
+				type    : String,
 				required: true,
-				unique: true
+				unique  : true
 			},
-			ccv: {
-				type: String,
+			ccv       : {
+				type    : String,
 				required: true,
-				unique: true
+				unique  : true
 			},
-			address: {
-				type     : String,
-				trim     : true,
-				required : true
+			address   : {
+				type    : String,
+				trim    : true,
+				required: true
 			},
-			country: {
-				type     : String,
-				trim     : true,
-				required : true
+			country   : {
+				type    : String,
+				trim    : true,
+				required: true
 			},
-			index: {
-				type: String,
+			index     : {
+				type    : String,
 				required: true,
-				unique: true
+				unique  : true
 			}
 		}
 	],
-	cart     : [
+	cart       : [
 		{
 			name       : {
 				type    : String,
@@ -107,6 +107,14 @@ const UserSchema = new mongoose.Schema({
 			quantity   : {
 				type    : Number,
 				required: true
+			},
+			price      : {
+				type    : Number,
+				required: true
+			},
+			picture    : {
+				type: String,
+				required   : true
 			}
 		}
 	]
@@ -207,7 +215,7 @@ UserSchema.methods.addToBillingData = function(data) {
 	});
 };
 
-UserSchema.methods.removeFromBillingData= function(cardNumber) {
+UserSchema.methods.removeFromBillingData = function(cardNumber) {
 	var user = this;
 
 	return user.update({ $pull: { "billingData": { "cardNumber": cardNumber } } });

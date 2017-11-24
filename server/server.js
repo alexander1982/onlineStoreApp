@@ -1,12 +1,16 @@
 require('./config/config.js');
 let path = require('path');
-
+let fs = require('fs');
 let mongoose = require('./db/mongoose.js').mongoose;
+
+mongoose.connect(process.env.MONGODB_URI);
+var Gridfs = require('gridfs-stream');
 let express = require('express');
 let bodyParser = require('body-parser');
 let _ = require('lodash');
 let objectId = require('mongodb').ObjectID;
 
+const Picture = require('./models/pictureModel.js').Picture;
 const User = require('./models/userModel.js').User;
 const Product = require('./models/productModel.js').Product;
 const authenticate = require('./middlewears/authenticate.js').authenticate;
@@ -136,28 +140,39 @@ app.delete('/users/token', authenticate, (req, res) => {
 });
 //ADD BILLING DATA
 app.post('/users/billing/add', (req, res) => {
-	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'name', 'lastName', 'username']);
+	let body = _.pick(req.body, [
+		'cardNumber',
+		'expDate',
+		'ccv',
+		'address',
+		'country',
+		'index',
+		'email',
+		'name',
+		'lastName',
+		'username'
+	]);
 	let billingData = {
 		cardNumber: body.cardNumber,
-		expDate: body.expDate,
-		ccv: body.ccv,
-		address: body.address,
-		country: body.country,
-		index: body.index
+		expDate   : body.expDate,
+		ccv       : body.ccv,
+		address   : body.address,
+		country   : body.country,
+		index     : body.index
 	};
-	User.findOne({username: body.username, email: body.email}).then((foundUser) => {
+	User.findOne({ username: body.username, email: body.email }).then((foundUser) => {
 		if(foundUser.billingData.length === 0){
 			foundUser.addToBillingData(billingData).then((user) => {
 				return res.status(200).send(user);
 			});
-			
+
 		} else {
 			let billing = foundUser.billingData;
 			let errorData = [];
 			for(let x = 0; x < billing.length; x++){
 				if(billing[x].cardNumber === billingData.cardNumber){
 					errorData[0] = 'The credit card number is already exist';
-				} 
+				}
 				if(billing[x].address === billingData.address){
 					errorData[1] = 'The address is already exist';
 				}
@@ -171,17 +186,17 @@ app.post('/users/billing/remove', (req, res) => {
 	let body = _.pick(req.body, ['cardNumber', 'expDate', 'ccv', 'address', 'country', 'index', 'email', 'username']);
 	let billingData = {
 		cardNumber: body.cardNumber,
-		expDate: body.expDate,
-		ccv: body.ccv,
-		address: body.address,
-		country: body.country,
-		index: body.index
+		expDate   : body.expDate,
+		ccv       : body.ccv,
+		address   : body.address,
+		country   : body.country,
+		index     : body.index
 	};
 
-	User.findOne({username: body.username, email: body.email}).then((foundUser) => {
+	User.findOne({ username: body.username, email: body.email }).then((foundUser) => {
 		let billing = foundUser.billingData;
-		for(let x = 0; x < billing.length; x++) {
-			if(billing[x].cardNumber !== billingData.cardNumber) {
+		for(let x = 0; x < billing.length; x++){
+			if(billing[x].cardNumber !== billingData.cardNumber){
 				return res.status(400).send('The credit card number is not exist');
 			} else {
 				console.log(billingData.cardNumber);
@@ -196,30 +211,34 @@ app.post('/users/billing/remove', (req, res) => {
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = //
 
 //ADD A NEW PRODUCT TO STORE
-app.post('/products', (req, res) => {
-	var product = new Product({
-		name       : req.body.name,
-		describtion: req.body.describtion,
-		quantity   : req.body.quantity
-	});
+app.post('/products',  (req, res) => {
+		var product = new Product({
+			name       : req.body.name,
+			describtion: req.body.describtion,
+			quantity   : req.body.quantity,
+			price      : req.body.price,
+			picture    : req.body.picture
+		});
 
-	product.save().then((product) => {
-		if(!product){
-			res.status(400).send();
-		}
-		res.status(200).send(product);
-	}).catch((err) => {
-		res.status(400).send(err.errmsg);
-	});
+		product.save().then((product) => {
+			if(!product){
+				res.status(400).send();
+			}
+			res.status(200).send(product);
+		}).catch((err) => {
+			res.status(400).send(err.errmsg);
+		});
 });
 //ADD A NEW PRODUCT TO CART
 app.post('/users/cart', (req, res) => {
-	var body = _.pick(req.body, ['describtion', '_id', 'name', 'quantity', 'token']);
+	var body = _.pick(req.body, ['describtion', '_id', 'name', 'quantity', 'price', 'picture', 'token']);
 	var product = {
 		_id        : objectId(body._id),
 		describtion: body.describtion,
 		name       : body.name,
-		quantity   : body.quantity
+		quantity   : body.quantity,
+		price      : body.price,
+		picture    : body.picture
 	};
 	var token = body.token;
 
@@ -228,11 +247,13 @@ app.post('/users/cart', (req, res) => {
 			return res.status(404).send('User not found');
 		} else {
 			user.getProductFromCart(product, token).then((data) => {
-				if(data[0].cart.length === 0) {
+				if(data[0].cart.length === 0){
 					user.addToCart(product);
 					res.status(200).send(user);
 				} else {
 					product.quantity = parseInt(product.quantity) + parseInt(data[0].cart[0].quantity);
+					product.price = data[0].cart[0].price;
+					product.picture = data[0].cart[0].picture;
 					user.removeProductFromCart(product).then((deletedProduct) => {
 						user.addToCart(product);
 						res.status(200).send(user);
@@ -244,12 +265,14 @@ app.post('/users/cart', (req, res) => {
 });
 //GET PRODUCT FROM CART
 app.post('/users/cart/product', (req, res) => {
-	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity', 'token']);
+	var body = _.pick(req.body, ['_id', 'describtion', 'name', 'quantity', 'price', 'picture', 'token']);
 	var product = {
 		_id        : objectId(body._id),
 		description: body.describtion,
 		name       : body.name,
-		quantity   : body.quantity
+		quantity   : body.quantity,
+		price      : body.price,
+		picture    : body.picture
 	};
 	var token = body.token;
 
@@ -266,7 +289,7 @@ app.post('/users/cart/product', (req, res) => {
 //GET LIST OF PRODUCT FROM CART
 app.post('/users/cart/products', (req, res) => {
 	var body = _.pick(req.body, ['token']);
-	
+
 	User.findByToken(body.token).then((response) => {
 		if(!response){
 			return res.status(404).send('User not found');
@@ -320,9 +343,9 @@ app.get('/products', (req, res) => {
 	});
 });
 //UPDATE THE WHOLE PRODUCT
-app.patch('/products/:id', (req, res) => {
-	var productId = req.params.id;
-	var formattedProduct = _.pick(req.body, ['name', 'describtion', 'quantity']);
+app.post('/products/update', (req, res) => {
+	var productId = req.body._id;
+	var formattedProduct = _.pick(req.body, ['name', 'describtion', 'quantity', 'picture', 'price']);
 
 	if(!objectId.isValid(productId)){
 		return res.status(404).send();
@@ -398,6 +421,16 @@ app.delete('/products/:id', (req, res) => {
 	}).catch((err) => {
 		res.status(400).send(err);
 	})
+});
+//GET PRODUCT PICTURE BY ID
+app.post('/products/picture', (req, res) => {
+	let pictureId = objectId(req.body.id);
+	
+	return Picture.findOne({_id:pictureId}).then((response) => {
+		return res.status(200).send(response);
+	}).catch((error) => {
+		console.log(error);
+	});
 });
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = //

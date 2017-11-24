@@ -7,31 +7,37 @@ let api = require('API');
 let store = require('ConfigureStore').configure();
 
 export let SingleProduct = createClass({
-	                                       collectFieldsForCart(_id, name, describtion, quantity) {
+	                                       collectFieldsForCart(_id, name, describtion, quantity, price, picture) {
 		                                       let medal = authStuff.getCookie('auth');
 		                                       let product = {
 			                                       _id,
 			                                       name,
 			                                       describtion,
 			                                       quantity,
+			                                       price,
+			                                       picture,
 			                                       token: medal
 		                                       };
 		                                       return product;
 	                                       },
 	                                       render() {
 		                                       let { singleProduct, dispatch } = this.props;
-		                                       let collected = this.collectFieldsForCart(singleProduct._id, singleProduct.name, singleProduct.describtion, singleProduct.quantity)
+		                                       let collected = this.collectFieldsForCart(singleProduct._id, singleProduct.name, singleProduct.describtion, singleProduct.quantity, singleProduct.price, singleProduct.picture);
+		                                       console.log(singleProduct);
 		                                       return (
 		                                       <div>
-			                                       <h1>{singleProduct.name}</h1>
-			                                       <h1>{singleProduct.describtion}</h1>
-			                                       <h1>{singleProduct.quantity}</h1>
+			                                       <span>{singleProduct.name}</span>
+			                                       <span>{singleProduct.describtion}</span>
+			                                       <span>------></span>
+			                                       <span>{singleProduct.quantity}</span>
+			                                       <span>------></span>
+			                                       <span>{singleProduct.price}</span>
 			                                       <button className="button" onClick={() => {
 			                                    {
 			                                     if(this.refs.pick.value > singleProduct.quantity || this.refs.pick.value < 0) {
 			                                      console.log('Not enough');
 			                                     } else {
-			                                      let collectedFields = this.collectFieldsForCart(singleProduct._id, singleProduct.name, singleProduct.describtion, this.refs.pick.value);
+			                                      let collectedFields = this.collectFieldsForCart(singleProduct._id, singleProduct.name, singleProduct.describtion, this.refs.pick.value, singleProduct.price, singleProduct.picture);
 			                                      api.addProductToCart(collectedFields).then((user) => {
 			                                        dispatch(actions.unsetUser());
 			                                        dispatch(actions.setUser(user));
@@ -46,7 +52,9 @@ export let SingleProduct = createClass({
 			                                                _id: response.data._id,
 			                                                name:  response.data.name,
 			                                                describtion: response.data.describtion,
-			                                                quantity: response.data.quantity
+			                                                quantity: response.data.quantity,
+			                                                price: response.data.price,
+			                                                picture: response.data.picture
 			                                              };
 			                                              store.dispatch(actions.startAddProductsToCart(collected));
 			                                              dispatch(actions.setSingleProduct(updatedProduct));
@@ -62,8 +70,7 @@ export let SingleProduct = createClass({
 			                                       </button>
 			                                       <button className="button" onClick={() => {
 			                                    {
-			                                      api.getProductFromCart(collected).then((response) => {
-			                                      console.log(this.refs.pick.value);
+			                                      api.getProductFromCart(collected).then((response) => {       
 			                                      let newQuantity = collected.quantity + response.data[0].cart[0].quantity;
 			                                      let updated = {
 			                                        _id: collected._id,

@@ -68,7 +68,7 @@ const StoreApp = createClass({
 				                             <LogoutButton onClick={() => {this.handleLogout()}}/>
 				                             <SigninLogin onSearch={this.handleSearch}
 				                                          onFilter={this.handleFilter}
-				                             {...singleProduct} {...allProductsInCart}/>
+				                             {...singleProduct} {...allProductsInCart} />
 				                             <AddProductToCartButton/>
 			                             </div>
 		                             </div>

@@ -21,18 +21,11 @@ module.exports = {
 		});
 	},
 	addProduct(product) {
-		$.ajax({
-			       url        : "/products",
-			       data       : JSON.stringify(product),
-			       type       : "POST",
-			       contentType: "application/json",
-			       success    : (data) => {
-				       console.log(data);
-			       },
-			       error      : (error) => {
-				       console.log(error.responseText);
-			       }
-		       });
+		return axios.post('/products', product).then((response) => {
+			return response;
+		}).catch((error) => {
+			return error;
+		});
 	},
 	addProductToCart(productData) {
 		return axios.post("/users/cart", productData).then((response) => {
@@ -70,18 +63,11 @@ module.exports = {
 		});
 	},
 	updateProduct(id, product) {
-		$.ajax({
-			       url        : `/products/${id}`,
-			       data       : JSON.stringify(product),
-			       type       : "PATCH",
-			       contentType: "application/json",
-			       success    : (data) => {
-				       console.log(data);
-			       },
-			       error      : (error) => {
-				       console.log(error.responseText);
-			       }
-		       });
+		return axios.post(`/products/update`, product).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error.response);
+		});
 	},
 	deleteProduct(id) {
 		$.ajax({
@@ -94,6 +80,13 @@ module.exports = {
 				       console.log(error.responseText);
 			       }
 		       });
+	},
+	getProductPictureById(id) {
+		return axios.post('/products/picture', id).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.log(error);
+		});
 	},
 
 	//USER API

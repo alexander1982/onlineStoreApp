@@ -13,6 +13,7 @@ import SingleProduct from 'SingleProduct';
 let store = require('ConfigureStore').configure();
 import Cart from 'Cart';
 import CheckOut from 'CheckOut';
+import AddProduct from 'AddProduct';
 
 export let SigninLogin = createClass({
 	                                     collectFieldsForCart(_id, name, describtion, quantity) {
@@ -141,6 +142,7 @@ export let SigninLogin = createClass({
 			                                     {renderCartButton()}
 			                                     {renderRegister()}
 			                                     {renderBackToMain()}
+			                                     <AddProduct />
 		                                     </div>
 		                                     )
 	                                     }

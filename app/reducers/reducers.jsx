@@ -29,17 +29,28 @@ export let rangeReducer = (state = [], action) => {
 
 export let productsReducer = (state = [], action) => {
 	switch(action.type){
-		case 'ADD_PRODUCTS':
+		case 'SET_PRODUCTS':
 			return [
 				...state,
 				...action.products
 			];
 		case 'UNSET_PRODUCTS':
 			return [];
+		case 'SET_PRODUCT':
+		return [
+			...state,
+			action.product
+		];
+		case 'UNSET_PRODUCT':
+			return [
+				...state,
+				action.product
+			];
 		default:
 			return state;
 	}
 };
+
 
 export let userReducer = (state = [], action) => {
 	switch(action.type){
@@ -140,3 +151,20 @@ export let allProductsInCartReducer = (state = [], action) => {
 	}
 };
 
+export let toggleAdminReducer = (state = false, action) => {
+	switch(action.type){
+		case 'TOGGLE_ADMIN':
+			return !state;
+		default:
+			return state;
+	}
+};
+
+export let toggleAddProductReducer = (state=false, action) => {
+	switch(action.type){
+		case 'TOGGLE_ADD_PRODUCT':
+			return !state;
+		default:
+			return state;
+	}
+};

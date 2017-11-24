@@ -2,6 +2,8 @@ import * as redux from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {
+toggleAdminReducer,
+toggleAddProductReducer,
 cartReducer,
 productsReducer,
 userReducer,
@@ -33,7 +35,9 @@ export let configure = (initialState = {}) => {
 		                                    searchText                 : searchProductReducer,
 		                                    signin                     : toggleSigninReducer,
 		                                    singleProduct              : singleProductReducer,
+		                                    toggleAddProduct           : toggleAddProductReducer,
 		                                    toggleSingleProductCheckOut: toggleSingleProductCheckOutReducer,
+		                                    toggleAdmin                : toggleAdminReducer,
 		                                    users                      : userReducer,
 		                                    userErrorText              : userErrorTextReducer
 	                                    });
